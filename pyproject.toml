@@ -1,0 +1,14 @@
+[project]
+name = "personal-website"
+version = "0.1.0"
+description = "Jack Morton's personal website"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "flask>=3.1.1",
+]
+
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+

@@ -1,0 +1,75 @@
+/* CSS variables */
+
+:root {
+	--min-content-width: 320px;
+	--max-content-width: 900px;
+	--content-padding: 15px;
+
+	--color-footer-bg: #eaeaea;
+}
+
+
+/* Generic classes */
+
+.content-width {
+	max-width: var(--max-content-width);
+	min-width: var(--min-content-width);
+	position: relative;
+	margin: 0 auto;
+}
+
+.flex-row {
+	display: flex;
+	flex-direction: row;
+}
+
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+.flex-row > *,
+.flex-column > * {
+	flex: 1;
+}
+
+.align-right {
+	text-align: right;
+}
+
+
+/* Document body */
+
+body {
+	padding: 0;
+	margin: 0;
+}
+
+
+/* Footer */
+
+footer {
+	background-color: var(--color-footer-bg);
+	padding: var(--content-padding) 0;
+}
+
+@media (width > 600px) {
+	footer {
+		flex-direction: row;
+	}
+	footer > .right {
+		text-align: right;
+	}
+}
+
+footer * {
+	flex: 1;
+    color: var(--color-text-mid);
+}
+
+footer .logo {
+	height: 50px;
+	padding: 5px;
+	background-color: var(--color-text-mid);
+	border-radius: var(--corner-radius);
+}

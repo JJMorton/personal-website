@@ -1,0 +1,51 @@
+<!DOCTYPE  html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {% if title %}
+        <title>{{ title }} - Jack Morton</title>
+        {% else %}
+        <title>Jack Morton</title>
+        {% endif %}
+        <link rel="stylesheet" type="text/css" href="/styles/main.css">
+        <script src="https://kit.fontawesome.com/39b6f1d864.js" crossorigin="anonymous"></script>
+        <script src="/scripts/main.js"></script>
+		{% block head %}{% endblock %}
+    </head>
+    <body>
+
+        <header>
+            <ul id="nav-bar">
+                <li id="home"><a href="/">Home</a></li>
+                <li class="separator"></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </header>
+
+        <div id="content-wrapper">
+			{% if title %}
+				<div id="title-wrapper">
+					<h1>{{ title }}</h1>
+				</div>
+			{% endif %}
+
+            <div id="content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+
+        <footer>
+			<div class="content-width flex-row">
+				<div>
+					<p><strong>Jack Morton</strong></p>
+					<p><i>PhD Student, Physics & Astronomy, Exeter University</i></p>
+				</div>
+				<div class="align-right">
+					<p><i class="fa-solid fa-wand-magic-sparkles"></i> Website source on <a class="highlight" target="_blank" href="https://github.com/JJMorton/personal-website">GitHub</a> <strong>CHANGE LINK</strong></p>
+				</div>
+			</div>
+        </footer>
+
+    </body>
+</html>
