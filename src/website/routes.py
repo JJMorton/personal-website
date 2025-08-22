@@ -10,4 +10,21 @@ from . import app
 
 @app.route("/")
 def home():
-    return render_template("home/index.html", title="Home")
+    return render_template("home/index.html", id="home")
+
+
+@app.route("/other")
+def other():
+    return render_template("other/index.html", id="other", title="Other")
+
+
+@app.route("/contact")
+def contact():
+    return render_template("contact/index.html", id="contact", title="Contact Me")
+
+
+@app.route("/colourtest")
+def colourtest():
+    return render_template(
+        "colourtest/index.html", id="colourtest", title="Colour Test"
+    )

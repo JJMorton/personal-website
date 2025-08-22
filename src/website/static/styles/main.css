@@ -1,15 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
 /* CSS variables */
 
 :root {
+	/* Width of the content on the page */
 	--min-content-width: 320px;
-	--max-content-width: 900px;
-	--content-padding: 15px;
+	--max-content-width: 800px;
 
-	--color-footer-bg: #eaeaea;
+	/* The minimum size of buttons, for example */
+	--finger-size: 42px;
+
+	--edge-padding: 15px;
+
+	--font: "Lato";
+
+	--transition-duration: 100ms;
+
+	/*
+	 * The colours here are ordered lightest to darkest.
+	 * Regular text should use the best contrast, either
+	 * color5 on color1 or the opposite for a dark background.
+	 * Use color4 on color1 for an alternative foreground
+	 * (e.g. links) though it has slightly less contrast.
+	 */
+	--color1: #f4f1deff;
+	--color2: #f2cc8fff;
+	--color3: #5b957eff;
+	--color4: #bc4524ff;
+	--color5: #3d405bff;
+
+	--color-text: var(--color5);
+	--color-content-bg: var(--color1);
+	--color-footer-bg: var(--color5);
+	--color-anchor: var(--color4);
+
+	--color-overlay-dark: #00000030;
+	--color-overlay-light: #FFFFFF30;
+}
+
+* {
+	font-family: var(--font);
 }
 
 
-/* Generic classes */
+/*
+ * Generic classes
+ */
 
 .content-width {
 	max-width: var(--max-content-width);
@@ -18,31 +54,205 @@
 	margin: 0 auto;
 }
 
+/* Float on the right, unless we are in mobile view */
+
+.float-right-adaptive {
+	width: 100%;
+	display: block;
+}
+
+@media only screen and (width > 600px) {
+	.float-right-adaptive {
+		float: right;
+		width: auto;
+	}
+}
+
+section {
+	overflow: hidden;
+}
+
+/* Flex boxes */
+
 .flex-row {
 	display: flex;
 	flex-direction: row;
+	gap: var(--edge-padding);
 }
 
 .flex-column {
 	display: flex;
 	flex-direction: column;
+	gap: var(--edge-padding);
 }
 
-.flex-row > *,
-.flex-column > * {
+.flex {
 	flex: 1;
 }
+
+/* Alignment */
 
 .align-right {
 	text-align: right;
 }
 
+.align-centre {
+	text-align: center;
+}
 
-/* Document body */
+/* Use the accent colour for links */
+
+a {
+	color: var(--color-anchor);
+}
+
+/* Make lists less cramped */
+
+ul > li:not(last-child),
+ol > li:not(last-child) {
+	margin-bottom: 10px;
+}
+
+/* Headings */
+
+section > h2::before {
+	content: "§ ";
+	color: var(--color3);
+	font-size: 80%;
+}
+
+
+/*
+ * The document body
+ */
 
 body {
 	padding: 0;
 	margin: 0;
+	background-color: var(--color-footer-bg);
+	color: var(--color-text);
+}
+
+header, #content, #title {
+	background-color: var(--color-content-bg);
+}
+
+#content {
+	padding: var(--edge-padding);
+	border-bottom: 10px solid var(--color3);
+	min-height: 50vh;
+}
+
+
+/*
+ * Navigation bar
+ */
+
+header {
+	padding: var(--edge-padding);
+}
+
+#nav-bar {
+	display: flex;
+	flex-direction: column;
+	list-style: none;
+	padding: 0;
+}
+
+#nav-bar > li {
+	flex: 1;
+}
+
+#nav-bar > li > a {
+	text-decoration: none;
+	color: var(--color-text);
+	line-height: var(--finger-size);
+	width: 100%;
+	display: block;
+	border-radius: 5px;
+	transition: background-color var(--transition-duration) linear;
+}
+
+@media only screen and (width > 600px) {
+	#nav-bar {
+		flex-direction: row;
+		gap: var(--edge-padding);
+	}
+}
+
+#nav-bar > li.selected > a {
+	background-color: var(--color-text);
+	color: var(--color-content-bg);
+}
+
+#nav-bar > li:not(.selected) > a:hover {
+	background-color: var(--color-overlay-dark);
+}
+
+
+/* Homepage-specific */
+
+.fullscreen-canvas {
+	position: fixed;
+	z-index: -1;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+}
+
+#headshot {
+	width: 200px;
+	max-width: 40%;
+}
+
+#headshot > img {
+	width: 100%;
+	border-radius: 50%;
+	border: 2px solid var(--color5);
+}
+
+li.icon {
+	list-style: none;
+}
+
+li.icon::before {
+	content: '';
+	position: relative;
+	top: 0.2em;
+	display: inline-block;
+	height: 1.2em;
+	width: 1.2em;
+	margin-left: -20px;
+	opacity: 0.7;
+}
+
+li.paper::before {
+	background-image: url("/static/fa/file-lines.svg");
+}
+
+li.talk::before {
+	background-image: url("/static/fa/microphone.svg");
+}
+
+li.poster::before {
+	background-image: url("/static/fa/person-chalkboard.svg");
+}
+
+li.workshop::before {
+	background-image: url("/static/fa/user-group.svg");
+}
+
+li.mail::before {
+	background-image: url("/static/fa/envelope.svg");
+}
+
+li.git::before {
+	background-image: url("/static/fa/code-branch.svg");
+}
+
+li.orcid::before {
+	background-image: url("/static/fa/id-badge.svg");
 }
 
 
@@ -50,10 +260,10 @@ body {
 
 footer {
 	background-color: var(--color-footer-bg);
-	padding: var(--content-padding) 0;
+	padding: var(--edge-padding);
 }
 
-@media (width > 600px) {
+@media only screen and (width > 600px) {
 	footer {
 		flex-direction: row;
 	}
@@ -64,12 +274,5 @@ footer {
 
 footer * {
 	flex: 1;
-    color: var(--color-text-mid);
-}
-
-footer .logo {
-	height: 50px;
-	padding: 5px;
-	background-color: var(--color-text-mid);
-	border-radius: var(--corner-radius);
+    color: var(--color-content-bg);
 }
