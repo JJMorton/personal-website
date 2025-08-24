@@ -42,6 +42,10 @@
 	font-family: var(--font);
 }
 
+body {
+	min-width: var(--min-content-width);
+}
+
 
 /*
  * Generic classes
@@ -49,7 +53,6 @@
 
 .content-width {
 	max-width: var(--max-content-width);
-	min-width: var(--min-content-width);
 	position: relative;
 	margin: 0 auto;
 }
@@ -61,10 +64,11 @@
 	display: block;
 }
 
-@media only screen and (width > 600px) {
+@media only screen and (width > 700px) {
 	.float-right-adaptive {
 		float: right;
 		width: auto;
+		margin-left: var(--edge-padding);
 	}
 }
 
