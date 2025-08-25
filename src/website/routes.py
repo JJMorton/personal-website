@@ -28,3 +28,9 @@ def colourtest():
     return render_template(
         "colourtest/index.html", id="colourtest", title="Colour Test"
     )
+
+@app.route("/moire")
+def moire():
+    return render_template(
+        "moire/index.html", id="moire", title="Moiré Patterns"
+    )
