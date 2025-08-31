@@ -6,3 +6,6 @@ lint:
 	# Linting Python files with ruff
 	uvx ruff format main.py
 	find src/ -name '*.py' -exec uvx ruff format {} \;
+
+	# Linting HTML, CSS and JS with prettier
+	npx prettier src/website/ --write
