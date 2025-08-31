@@ -1,9 +1,9 @@
-import { ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+import { ref } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
 
 let i = 0;
 
 export default {
-	name: 'Checkbox',
+	name: "Checkbox",
 	props: {
 		name: String,
 		default: Boolean,
@@ -29,4 +29,4 @@ export default {
 
 		return { id, checked, toggle, reset };
 	},
-}
+};

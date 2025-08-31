@@ -29,17 +29,18 @@ def colourtest():
         "colourtest/index.html", id="colourtest", title="Colour Test"
     )
 
+
 @app.route("/moire")
 def moire():
-    return render_template(
-        "moire/index.html", id="moire", title="Moiré Patterns"
-    )
+    return render_template("moire/index.html", id="moire", title="Moiré Patterns")
+
 
 @app.route("/simulations")
 def simulations():
     return render_template(
         "simulations/index.html", id="simulations", title="Simulations"
     )
+
 
 @app.route("/simulations/test")
 def simulation_test():

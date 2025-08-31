@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
 
 /* CSS variables */
 
@@ -35,7 +35,7 @@
 	--color-anchor: var(--color4);
 
 	--color-overlay-dark: #00000030;
-	--color-overlay-light: #FFFFFF30;
+	--color-overlay-light: #ffffff30;
 
 	--moire-background-size: 400px;
 }
@@ -47,7 +47,6 @@
 body {
 	min-width: var(--min-content-width);
 }
-
 
 /*
  * Generic classes
@@ -134,24 +133,28 @@ section > h2::before {
 		background-position: 0 0px;
 	}
 	100% {
-		background-position: calc(-1 * var(--moire-background-size)) calc(2 * var(--moire-background-size));
+		background-position: calc(-1 * var(--moire-background-size))
+			calc(2 * var(--moire-background-size));
 	}
 }
 
 .moire-background {
-	background: url("/static/img/moire-light.png") repeat, var(--color-content-bg);
+	background:
+		url("/static/img/moire-light.png") repeat,
+		var(--color-content-bg);
 	background-size: var(--moire-background-size) var(--moire-background-size);
 }
 
 .moire-background.dark {
-	background: url("/static/img/moire-dark.png") repeat, var(--color-footer-bg);
+	background:
+		url("/static/img/moire-dark.png") repeat,
+		var(--color-footer-bg);
 	background-size: var(--moire-background-size) var(--moire-background-size);
 }
 
 .moire-background.animated {
 	animation: background-scroll 40s linear infinite;
 }
-
 
 /*
  * The document body
@@ -164,7 +167,9 @@ body {
 	color: var(--color-text);
 }
 
-header, #content, #title {
+header,
+#content,
+#title {
 	background-color: var(--color-content-bg);
 }
 
@@ -192,7 +197,6 @@ header::after {
 	border-bottom: 10px solid var(--color3);
 	min-height: 50vh;
 }
-
 
 /*
  * Navigation bar
@@ -239,7 +243,6 @@ header {
 	background-color: var(--color-overlay-dark);
 }
 
-
 /* Homepage-specific */
 
 #headshot {
@@ -258,7 +261,7 @@ li.icon {
 }
 
 li.icon::before {
-	content: '';
+	content: "";
 	position: relative;
 	top: 0.2em;
 	display: inline-block;
@@ -266,11 +269,13 @@ li.icon::before {
 	width: 1.2em;
 	margin-left: -20px;
 	/* See https://codepen.io/sosuke/pen/Pjoqqp for choosing the filters */
-	filter: invert(22%) sepia(33%) saturate(500%) hue-rotate(195deg) brightness(98%) contrast(88%);
+	filter: invert(22%) sepia(33%) saturate(500%) hue-rotate(195deg)
+		brightness(98%) contrast(88%);
 }
 
 li.icon.light::before {
-	filter: invert(90%) sepia(12%) saturate(331%) hue-rotate(349deg) brightness(108%) contrast(91%);
+	filter: invert(90%) sepia(12%) saturate(331%) hue-rotate(349deg)
+		brightness(108%) contrast(91%);
 }
 
 li.paper::before {
@@ -301,7 +306,6 @@ li.orcid::before {
 	background-image: url("/static/fa/id-badge.svg");
 }
 
-
 /* Footer */
 
 footer {
@@ -320,5 +324,5 @@ footer {
 
 footer * {
 	flex: 1;
-    color: var(--color-content-bg);
+	color: var(--color-content-bg);
 }

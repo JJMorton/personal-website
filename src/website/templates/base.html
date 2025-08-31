@@ -1,57 +1,71 @@
 <!-- vim: set syntax=htmldjango: -->
 
-<!DOCTYPE html>
+<!doctype html>
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        {% if title %}
-        <title>{{ title }} - Jack Morton</title>
-        {% else %}
-        <title>Jack Morton</title>
-        {% endif %}
-        <link rel="stylesheet" type="text/css" href="/static/styles/main.css">
-        <script src="/static/scripts/main.js"></script>
-        {% block head %}{% endblock %}
-    </head>
-    <body>
-        <header class="moire-background">
-            <ul id="nav-bar" class="content-width">
-                <li class="align-centre {% if id == "home" %}selected{% endif %}">
-                    <a href="/">Home</a>
-                </li>
-                <li class="align-centre {% if id == "other" %}selected{% endif %}">
-                    <a href="/other">Other</a>
-                </li>
-                <li class="align-centre {% if id == "contact" %}selected{% endif %}">
-                    <a href="/contact">Contact</a>
-                </li>
-            </ul>
-        </header>
+		{% if title %}
+			<title>{{ title }} - Jack Morton</title>
+		{% else %}
+			<title>Jack Morton</title>
+		{% endif %}
+		<link rel="stylesheet" type="text/css" href="/static/styles/main.css" />
+		<script src="/static/scripts/main.js"></script>
+		{% block head %}{% endblock %}
+	</head>
+	<body>
+		<header class="moire-background">
+			<ul id="nav-bar" class="content-width">
+				<li
+					class="align-centre {% if id == "home" %}selected{% endif %}"
+				>
+					<a href="/">Home</a>
+				</li>
+				<li
+					class="align-centre {% if id == "other" %}selected{% endif %}"
+				>
+					<a href="/other">Other</a>
+				</li>
+				<li
+					class="align-centre {% if id == "contact" %}selected{% endif %}"
+				>
+					<a href="/contact">Contact</a>
+				</li>
+			</ul>
+		</header>
 
-        <div id="content">
-            <div id="content-inner" class="content-width">
-                {% block content %}{% endblock %}
-            </div>
-        </div>
+		<div id="content">
+			<div id="content-inner" class="content-width">
+				{% block content %}{% endblock %}
+			</div>
+		</div>
 
-        <footer>
-            <div class="content-width flex-row">
-                <div class="flex">
-                    <p><strong>Jack Morton</strong></p>
-                    <p><i>PhD Student, Physics & Astronomy, Exeter University</i></p>
-                    <p><a href="/contact">Contact me</a></p>
-                </div>
-                <div class="align-right flex">
-                    <p>
-                        <li class="icon light git">
-                            Website source on
-                            <a target="_blank" href="https://github.com/JJMorton/personal-website">GitHub</a>
-                        </li>
-                    </p>
-                </div>
-            </div>
-        </footer>
-
-    </body>
+		<footer>
+			<div class="content-width flex-row">
+				<div class="flex">
+					<p><strong>Jack Morton</strong></p>
+					<p>
+						<i
+							>PhD Student, Physics & Astronomy, Exeter
+							University</i
+						>
+					</p>
+					<p><a href="/contact">Contact me</a></p>
+				</div>
+				<div class="align-right flex">
+					<p>
+						<li class="icon light git">
+							Website source on
+							<a
+								target="_blank"
+								href="https://github.com/JJMorton/personal-website"
+								>GitHub</a
+							>
+						</li>
+					</p>
+				</div>
+			</div>
+		</footer>
+	</body>
 </html>

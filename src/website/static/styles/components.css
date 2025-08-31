@@ -17,7 +17,6 @@
 	border-left: 4px solid rgba(0, 0, 0, 0.1);
 }
 
-
 /* KNOBS */
 
 .knob {
@@ -65,7 +64,9 @@
 	width: var(--finger-size);
 	aspect-ratio: 1;
 	position: relative;
-	transition: border 60ms linear, outline 60ms linear;
+	transition:
+		border 60ms linear,
+		outline 60ms linear;
 	margin: 3px;
 }
 
@@ -73,7 +74,8 @@
 	cursor: ns-resize;
 }
 
-.knob > .wheel:hover:not(.disabled), .knob > .wheel.changing:not(.disabled) {
+.knob > .wheel:hover:not(.disabled),
+.knob > .wheel.changing:not(.disabled) {
 	border-width: 4px;
 }
 
@@ -92,7 +94,6 @@
 	height: 50%;
 	outline: 1px solid var(--color-text);
 }
-
 
 /* GAUGES */
 
@@ -123,10 +124,12 @@
 
 .gauge > meter::-webkit-meter-bar,
 .gauge > meter::-moz-meter-bar {
-	background: linear-gradient(-90deg, transparent -200px, var(--color3) 300px), url("/static/img/moire-dark.png") repeat, var(--color3);
+	background:
+		linear-gradient(-90deg, transparent -200px, var(--color3) 300px),
+		url("/static/img/moire-dark.png") repeat,
+		var(--color3);
 	background-position: top left;
 }
-
 
 /* COMBO BOX */
 
@@ -144,7 +147,6 @@
 .combobox > * {
 	display: block;
 }
-
 
 /* CHECKBOX */
 
@@ -165,7 +167,7 @@
 
 @keyframes pop-rotate {
 	0% {
-		transform: scale(1.0) rotate(0deg);
+		transform: scale(1) rotate(0deg);
 	}
 	70% {
 		transform: scale(1.4) rotate(8deg);
@@ -187,4 +189,3 @@
 .checkbox.disabled > label {
 	opacity: 0.6;
 }
-

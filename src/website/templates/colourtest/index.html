@@ -2,82 +2,142 @@
 {% extends "base.html" %}
 
 {% block content %}
+	<section>
+		<p>
+			The pair (1, 5) have AAA contrast according to the Web Content
+			Accessibility Guidelines (WCAG), and are used for regular text.
+			Pairs (1, 4) and (2, 5) have AA contrast and are used as an
+			alternate colour, e.g. links. Colour 3 is only used for
+			non-essential UI elements, since it does not provide good contrast.
+		</p>
+	</section>
 
-<section>
-	<p>
-		The pair (1, 5) have AAA contrast according to the Web Content Accessibility Guidelines (WCAG), and are used for regular text.
-		Pairs (1, 4) and (2, 5) have AA contrast and are used as an alternate colour, e.g. links.
-		Colour 3 is only used for non-essential UI elements, since it does not provide good contrast.
-	</p>
-</section>
+	<section>
+		<p>
+			<span style="color: var(--color1); background: var(--color1);"
+				>This is color1 <i>in italics</i> <strong>as bold</strong></span
+			>
+			<span style="color: var(--color1); background: var(--color5);"
+				>This is color1 <i>in italics</i> <strong>as bold</strong></span
+			>
+		</p>
+		<p>
+			<span style="color: var(--color2); background: var(--color1);"
+				>This is color2 <i>in italics</i> <strong>as bold</strong></span
+			>
+			<span style="color: var(--color2); background: var(--color5);"
+				>This is color2 <i>in italics</i> <strong>as bold</strong></span
+			>
+		</p>
+		<p>
+			<span style="color: var(--color3); background: var(--color1);"
+				>This is color3 <i>in italics</i> <strong>as bold</strong></span
+			>
+			<span style="color: var(--color3); background: var(--color5);"
+				>This is color3 <i>in italics</i> <strong>as bold</strong></span
+			>
+		</p>
+		<p>
+			<span style="color: var(--color4); background: var(--color1);"
+				>This is color4 <i>in italics</i> <strong>as bold</strong></span
+			>
+			<span style="color: var(--color4); background: var(--color5);"
+				>This is color4 <i>in italics</i> <strong>as bold</strong></span
+			>
+		</p>
+		<p>
+			<span style="color: var(--color5); background: var(--color1);"
+				>This is color5 <i>in italics</i> <strong>as bold</strong></span
+			>
+			<span style="color: var(--color5); background: var(--color5);"
+				>This is color5 <i>in italics</i> <strong>as bold</strong></span
+			>
+		</p>
+	</section>
 
-<section>
-	<p>
-		<span style="color: var(--color1); background: var(--color1);">This is color1 <i>in italics</i> <strong>as bold</strong></span>
-		<span style="color: var(--color1); background: var(--color5);">This is color1 <i>in italics</i> <strong>as bold</strong></span>
-	</p>
-	<p>
-		<span style="color: var(--color2); background: var(--color1);">This is color2 <i>in italics</i> <strong>as bold</strong></span>
-		<span style="color: var(--color2); background: var(--color5);">This is color2 <i>in italics</i> <strong>as bold</strong></span>
-	</p>
-	<p>
-		<span style="color: var(--color3); background: var(--color1);">This is color3 <i>in italics</i> <strong>as bold</strong></span>
-		<span style="color: var(--color3); background: var(--color5);">This is color3 <i>in italics</i> <strong>as bold</strong></span>
-	</p>
-	<p>
-		<span style="color: var(--color4); background: var(--color1);">This is color4 <i>in italics</i> <strong>as bold</strong></span>
-		<span style="color: var(--color4); background: var(--color5);">This is color4 <i>in italics</i> <strong>as bold</strong></span>
-	</p>
-	<p>
-		<span style="color: var(--color5); background: var(--color1);">This is color5 <i>in italics</i> <strong>as bold</strong></span>
-		<span style="color: var(--color5); background: var(--color5);">This is color5 <i>in italics</i> <strong>as bold</strong></span>
-	</p>
-</section>
+	<section style="font-size: 120%;">
+		<p>
+			<span style="color: var(--color1); background: var(--color1);"
+				>This is color1 <i>in italics</i> <strong>as bold</strong></span
+			>
+			<span style="color: var(--color1); background: var(--color5);"
+				>This is color1 <i>in italics</i> <strong>as bold</strong></span
+			>
+		</p>
+		<p>
+			<span style="color: var(--color2); background: var(--color1);"
+				>This is color2 <i>in italics</i> <strong>as bold</strong></span
+			>
+			<span style="color: var(--color2); background: var(--color5);"
+				>This is color2 <i>in italics</i> <strong>as bold</strong></span
+			>
+		</p>
+		<p>
+			<span style="color: var(--color3); background: var(--color1);"
+				>This is color3 <i>in italics</i> <strong>as bold</strong></span
+			>
+			<span style="color: var(--color3); background: var(--color5);"
+				>This is color3 <i>in italics</i> <strong>as bold</strong></span
+			>
+		</p>
+		<p>
+			<span style="color: var(--color4); background: var(--color1);"
+				>This is color4 <i>in italics</i> <strong>as bold</strong></span
+			>
+			<span style="color: var(--color4); background: var(--color5);"
+				>This is color4 <i>in italics</i> <strong>as bold</strong></span
+			>
+		</p>
+		<p>
+			<span style="color: var(--color5); background: var(--color1);"
+				>This is color5 <i>in italics</i> <strong>as bold</strong></span
+			>
+			<span style="color: var(--color5); background: var(--color5);"
+				>This is color5 <i>in italics</i> <strong>as bold</strong></span
+			>
+		</p>
+	</section>
 
-<section style="font-size: 120%;">
-	<p>
-		<span style="color: var(--color1); background: var(--color1);">This is color1 <i>in italics</i> <strong>as bold</strong></span>
-		<span style="color: var(--color1); background: var(--color5);">This is color1 <i>in italics</i> <strong>as bold</strong></span>
-	</p>
-	<p>
-		<span style="color: var(--color2); background: var(--color1);">This is color2 <i>in italics</i> <strong>as bold</strong></span>
-		<span style="color: var(--color2); background: var(--color5);">This is color2 <i>in italics</i> <strong>as bold</strong></span>
-	</p>
-	<p>
-		<span style="color: var(--color3); background: var(--color1);">This is color3 <i>in italics</i> <strong>as bold</strong></span>
-		<span style="color: var(--color3); background: var(--color5);">This is color3 <i>in italics</i> <strong>as bold</strong></span>
-	</p>
-	<p>
-		<span style="color: var(--color4); background: var(--color1);">This is color4 <i>in italics</i> <strong>as bold</strong></span>
-		<span style="color: var(--color4); background: var(--color5);">This is color4 <i>in italics</i> <strong>as bold</strong></span>
-	</p>
-	<p>
-		<span style="color: var(--color5); background: var(--color1);">This is color5 <i>in italics</i> <strong>as bold</strong></span>
-		<span style="color: var(--color5); background: var(--color5);">This is color5 <i>in italics</i> <strong>as bold</strong></span>
-	</p>
-</section>
-
-<section style="font-size: 140%;">
-	<p>
-		<span style="color: var(--color1); background: var(--color1);">This is color1 <i>in italics</i> <strong>as bold</strong></span>
-		<span style="color: var(--color1); background: var(--color5);">This is color1 <i>in italics</i> <strong>as bold</strong></span>
-	</p>
-	<p>
-		<span style="color: var(--color2); background: var(--color1);">This is color2 <i>in italics</i> <strong>as bold</strong></span>
-		<span style="color: var(--color2); background: var(--color5);">This is color2 <i>in italics</i> <strong>as bold</strong></span>
-	</p>
-	<p>
-		<span style="color: var(--color3); background: var(--color1);">This is color3 <i>in italics</i> <strong>as bold</strong></span>
-		<span style="color: var(--color3); background: var(--color5);">This is color3 <i>in italics</i> <strong>as bold</strong></span>
-	</p>
-	<p>
-		<span style="color: var(--color4); background: var(--color1);">This is color4 <i>in italics</i> <strong>as bold</strong></span>
-		<span style="color: var(--color4); background: var(--color5);">This is color4 <i>in italics</i> <strong>as bold</strong></span>
-	</p>
-	<p>
-		<span style="color: var(--color5); background: var(--color1);">This is color5 <i>in italics</i> <strong>as bold</strong></span>
-		<span style="color: var(--color5); background: var(--color5);">This is color5 <i>in italics</i> <strong>as bold</strong></span>
-	</p>
-</section>
-
+	<section style="font-size: 140%;">
+		<p>
+			<span style="color: var(--color1); background: var(--color1);"
+				>This is color1 <i>in italics</i> <strong>as bold</strong></span
+			>
+			<span style="color: var(--color1); background: var(--color5);"
+				>This is color1 <i>in italics</i> <strong>as bold</strong></span
+			>
+		</p>
+		<p>
+			<span style="color: var(--color2); background: var(--color1);"
+				>This is color2 <i>in italics</i> <strong>as bold</strong></span
+			>
+			<span style="color: var(--color2); background: var(--color5);"
+				>This is color2 <i>in italics</i> <strong>as bold</strong></span
+			>
+		</p>
+		<p>
+			<span style="color: var(--color3); background: var(--color1);"
+				>This is color3 <i>in italics</i> <strong>as bold</strong></span
+			>
+			<span style="color: var(--color3); background: var(--color5);"
+				>This is color3 <i>in italics</i> <strong>as bold</strong></span
+			>
+		</p>
+		<p>
+			<span style="color: var(--color4); background: var(--color1);"
+				>This is color4 <i>in italics</i> <strong>as bold</strong></span
+			>
+			<span style="color: var(--color4); background: var(--color5);"
+				>This is color4 <i>in italics</i> <strong>as bold</strong></span
+			>
+		</p>
+		<p>
+			<span style="color: var(--color5); background: var(--color1);"
+				>This is color5 <i>in italics</i> <strong>as bold</strong></span
+			>
+			<span style="color: var(--color5); background: var(--color5);"
+				>This is color5 <i>in italics</i> <strong>as bold</strong></span
+			>
+		</p>
+	</section>
 {% endblock %}

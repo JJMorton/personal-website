@@ -1,7 +1,7 @@
 let i = 0;
 
 export default {
-	name: 'Gauge',
+	name: "Gauge",
 	props: {
 		name: String,
 		value: Number,
@@ -24,4 +24,4 @@ export default {
 		const id = `gauge${i++}`;
 		return { id };
 	},
-}
+};
