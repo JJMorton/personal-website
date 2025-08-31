@@ -45,5 +45,5 @@ def simulations():
 @app.route("/simulations/test")
 def simulation_test():
     return render_template(
-        "simulations/test/index.html", id="simulation_test", title="Test Simulation"
+        "simulations/test.html", id="simulation_test", title="Test Simulation"
     )
