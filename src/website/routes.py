@@ -40,3 +40,9 @@ def simulations():
     return render_template(
         "simulations/index.html", id="simulations", title="Simulations"
     )
+
+@app.route("/simulations/test")
+def simulation_test():
+    return render_template(
+        "simulations/test/index.html", id="simulation_test", title="Test Simulation"
+    )

@@ -4,13 +4,22 @@ let i = 0;
 
 export default {
 	name: 'Combobox',
-	template: '#component-combobox',
 	props: {
 		label: String,
 		default: String,
 		options: Array,
 		disabled: Boolean,
 	},
+	template: `
+		<div class="combobox" title="Choose an option">
+			<label :for="id">{{ label }}</label>
+			<select :id v-model="selected" :disabled>
+				<option v-for="opt in options" :key="opt.value" :value="opt.value">
+					{{ opt.label }}
+				</option>
+			</select>
+		</div>
+	`,
 	setup(props) {
 		const id = `combobox${i++}`;
 		const selected = ref(props.default || "");

@@ -1,0 +1,54 @@
+<!-- vim: set syntax=htmldjango: -->
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="/static/styles/components.css">
+
+<script setup type="module">
+import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+import { Knob, Checkbox, Combobox, Gauge } from '/static/scripts/simulation.mjs';
+
+createApp({
+  components: { Knob, Checkbox, Combobox, Gauge },
+  setup() {
+    const meterValue = ref(60.0);
+    const discreteValue = ref(2);
+    return { meterValue, discreteValue };
+  },
+}).mount('#app');
+
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+<div id="app">
+  <div class="control-group">
+    <Knob name="Test" units="%" :min="0" :max="100" :step="1" v-model:value="meterValue"></Knob>
+    <Knob disabled name="Test" units="cm" :min="0" :max="1" :step="0.01" :value=0.5></Knob>
+    <Knob name="Number of hotdogs" units="dogs" :min="0" :max="10" :step="1" v-model:value="discreteValue"></Knob>
+  </div>
+  <br/>
+  <Gauge name="How full is this meter?" :min="0" :max="100" units="%" v-model:value="meterValue"></Gauge>
+  <br/>
+  <div class="control-group">
+    <Checkbox name="Check it!"></Checkbox>
+    <Checkbox disabled name="Can't check it :("></Checkbox>
+  </div>
+  <br/>
+  <div class="control-group">
+    <Combobox label="Choose a card, any card" default="ace" :options="[
+      { label: 'Ace of spades', value: 'ace' },
+      { label: 'Two of hearts', value: 'two' },
+      { label: 'Joker', value: 'joker' },
+    ]"></Combobox>
+    <Combobox disabled label="You don't get to choose here" default="ace" :options="[
+      { label: 'Ace of spades', value: 'ace' },
+      { label: 'Two of hearts', value: 'two' },
+      { label: 'Joker', value: 'joker' },
+    ]"></Combobox>
+  </div>
+</div>
+
+{% endblock %}

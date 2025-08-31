@@ -4,7 +4,6 @@ let i = 0;
 
 export default {
 	name: 'Knob',
-	template: '#component-knob',
 	props: {
 		name: String,
 		value: Number,
@@ -15,6 +14,27 @@ export default {
 		disabled: Boolean,
 	},
 	emits: ['update:value'],
+	template: `
+		<div class="knob" :style>
+			<div
+				:id
+				:class="{ wheel: true, changing, disabled }"
+				title="Drag me up and down, double click to reset"
+				@mousedown="grab"
+				@touchstart="grab"
+				@dblclick="reset"
+			>
+				<div class="marker"></div>
+			</div>
+			<label class="value" :for="id">
+				<p class="name">{{ name }}</p>
+				<p>
+					<output :for="id">{{ value }}</output>
+					<span class="units">{{ units }}</span>
+				</p>
+			</label>
+		</div>
+	`,
 	setup(props, { emit }) {
 		const value = computed({
 			get() { return props.value },

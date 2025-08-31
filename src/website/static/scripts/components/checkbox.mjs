@@ -4,12 +4,17 @@ let i = 0;
 
 export default {
 	name: 'Checkbox',
-	template: '#component-checkbox',
 	props: {
 		name: String,
 		default: Boolean,
 		disabled: Boolean,
 	},
+	template: `
+		<div class="checkbox" title="Toggle me on or off">
+			<input type="checkbox" v-model="checked" :disabled :id></input>
+			<label :for="id">{{ name }}</label>
+		</div>
+	`,
 	setup(props) {
 		const id = `checkbox${i++}`;
 		const checked = ref(props.default);
