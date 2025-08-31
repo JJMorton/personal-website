@@ -12,8 +12,9 @@
         {% endif %}
         <link rel="stylesheet" type="text/css" href="/static/styles/main.css">
         <script src="/static/scripts/main.js"></script>
+        {% block head %}{% endblock %}
     </head>
-    <body class="moire-background dark">
+    <body>
         <header class="moire-background">
             <ul id="nav-bar" class="content-width">
                 <li class="align-centre {% if id == "home" %}selected{% endif %}">
