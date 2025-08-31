@@ -1,0 +1,106 @@
+<!-- vim: set syntax=htmldjango: -->
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="/static/styles/components.css">
+
+<script type="module">
+import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+import Knob from '/static/scripts/components/knob.js';
+import Checkbox from '/static/scripts/components/checkbox.js';
+import Combobox from '/static/scripts/components/combobox.js';
+import Gauge from '/static/scripts/components/gauge.js';
+
+createApp({
+  components: { Knob, Checkbox, Combobox, Gauge },
+  setup() {
+    const meterValue = ref(60.0);
+    const discreteValue = ref(2);
+    return { meterValue, discreteValue };
+  },
+}).mount('#app');
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+{% raw %}
+
+<template id="component-knob">
+  <div class="knob" :style>
+    <div
+      :id
+      :class="{ wheel: true, changing, disabled }"
+      title="Drag me up and down, double click to reset"
+      @mousedown="grab"
+      @touchstart="grab"
+      @dblclick="reset"
+    >
+      <div class="marker"></div>
+    </div>
+    <label class="value" :for="id">
+      <p class="name">{{ name }}</p>
+      <p><output :for="id">{{ value }}</output> <span class="units">{{ units }}</span></p>
+    </label>
+  </div>
+</template>
+
+<template id="component-checkbox">
+  <div class="checkbox" title="Toggle me on or off">
+    <input type="checkbox" v-model="checked" :disabled :id></input>
+    <label :for="id">{{ name }}</label>
+  </div>
+</template>
+
+<template id="component-combobox">
+  <div class="combobox" title="Choose an option">
+    <label :for="id">{{ label }}</label>
+    <select :id v-model="selected" :disabled>
+      <option v-for="opt in options" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+    </select>
+  </div>
+</template>
+
+<template id="component-gauge">
+  <div class="gauge">
+    <label :for="id">
+      <span class="name">{{ name }}</span>
+      <output :for="id">{{ value }}</output>
+      <span class="units">{{ units }}</span>
+    </label>
+    <meter :disabled :id :value :min :max></meter>
+  </div>
+</template>
+
+{% endraw %}
+
+<div id="app">
+  <div class="control-group">
+    <Knob name="Test" units="%" :min="0" :max="100" :step="1" v-model:value="meterValue"></Knob>
+    <Knob disabled name="Test" units="cm" :min="0" :max="1" :step="0.01" :value=0.5></Knob>
+    <Knob name="Number of hotdogs" units="dogs" :min="0" :max="10" :step="1" v-model:value="discreteValue"></Knob>
+  </div>
+  <br/>
+  <Gauge name="How full is this meter?" :min="0" :max="100" units="%" v-model:value="meterValue"></Gauge>
+  <br/>
+  <div class="control-group">
+    <Checkbox name="Check it!"></Checkbox>
+    <Checkbox disabled name="Can't check it :("></Checkbox>
+  </div>
+  <br/>
+  <div class="control-group">
+    <Combobox label="Choose a card, any card" default="ace" :options="[
+      { label: 'Ace of spades', value: 'ace' },
+      { label: 'Two of hearts', value: 'two' },
+      { label: 'Joker', value: 'joker' },
+    ]"></Combobox>
+    <Combobox disabled label="You don't get to choose here" default="ace" :options="[
+      { label: 'Ace of spades', value: 'ace' },
+      { label: 'Two of hearts', value: 'two' },
+      { label: 'Joker', value: 'joker' },
+    ]"></Combobox>
+  </div>
+</div>
+
+{% endblock %}

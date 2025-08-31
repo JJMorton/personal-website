@@ -34,3 +34,9 @@ def moire():
     return render_template(
         "moire/index.html", id="moire", title="Moiré Patterns"
     )
+
+@app.route("/simulations")
+def simulations():
+    return render_template(
+        "simulations/index.html", id="simulations", title="Simulations"
+    )
