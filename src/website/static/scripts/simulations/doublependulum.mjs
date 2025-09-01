@@ -18,17 +18,17 @@ export class DoublePendulum extends Simulation2D {
 	integrator;
 
 	constructor({
-		g,
-		m1,
-		m2,
-		l1,
-		l2,
-		trailduration,
-		showtrail,
-		showpendulum,
-		integrator,
-		timestep,
-	}) {
+		g = 9.8,
+		m1 = 1.0,
+		m2 = 0.5,
+		l1 = 1.0,
+		l2 = 0.5,
+		trailduration = 5.0,
+		showtrail = true,
+		showpendulum = true,
+		integrator = RK4Integrator,
+		timestep = 0.01,
+	} = {}) {
 		super();
 		this.g = g;
 		this.m1 = m1;
