@@ -23,16 +23,32 @@
 	 * Use color4 on color1 for an alternative foreground
 	 * (e.g. links) though it has slightly less contrast.
 	 */
+
+	/*
+	 * color1: The main background colour, e.g. white
+	 * color2: An alternate darker background colour
+	 * color3: A bold accent colour
+	 * color4: An alternate lighter text colour
+	 * color5: The main text colour, e.g. black
+	 */
+
+	/* Yellowed background with green and red highlights */
 	--color1: #f4f1deff;
 	--color2: #f2cc8fff;
 	--color3: #5b957eff;
 	--color4: #bc4524ff;
 	--color5: #3d405bff;
 
+	/* White bg, dark blue-ish grey text, yellow highlights */
+	--color5: #242f40ff;
+	--color4: #3d405bff;
+	--color3: #cca43bff;
+	--color2: #e5e5e5ff;
+	--color1: #ffffffff;
+
 	--color-text: var(--color5);
 	--color-content-bg: var(--color1);
 	--color-footer-bg: var(--color5);
-	--color-anchor: var(--color4);
 
 	--color-overlay-dark: #00000030;
 	--color-overlay-light: #ffffff30;
@@ -77,6 +93,14 @@ section {
 	overflow: hidden;
 }
 
+section.highlight {
+	background: linear-gradient(var(--color5) 0%, transparent 100%), url("/static/img/moire-dark.png") repeat, var(--color5);
+	color: var(--color1);
+	padding: var(--edge-padding);
+	border-radius: 10px;
+	box-shadow: 0 0 3px 0 var(--color4);
+}
+
 /* Flex boxes */
 
 .flex-row {
@@ -105,10 +129,10 @@ section {
 	text-align: center;
 }
 
-/* Use the accent colour for links */
+/* Use alternate colour for links */
 
 a {
-	color: var(--color-anchor);
+	color: var(--color4);
 }
 
 /* Make lists less cramped */
@@ -123,7 +147,7 @@ ol > li:not(last-child) {
 section > h2::before {
 	content: "§ ";
 	color: var(--color3);
-	font-size: 80%;
+	font-size: 70%;
 }
 
 /* Moire background */
@@ -175,6 +199,7 @@ header,
 
 header {
 	position: relative;
+	border-bottom: 1px solid var(--color2);
 }
 
 header * {
@@ -215,6 +240,7 @@ header {
 
 #nav-bar > li {
 	flex: 1;
+	margin: 0;
 }
 
 #nav-bar > li > a {
@@ -235,25 +261,41 @@ header {
 }
 
 #nav-bar > li.selected > a {
-	background-color: var(--color-text);
-	color: var(--color-content-bg);
+	background-color: var(--color5);
+	color: var(--color1);
 }
 
 #nav-bar > li:not(.selected) > a:hover {
-	background-color: var(--color-overlay-dark);
+	background-color: var(--color2);
 }
 
 /* Homepage-specific */
 
-#headshot {
-	width: 200px;
-	max-width: 40%;
+#headline {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: var(--edge-padding);
+	justify-content: start;
+	align-items: center;
+}
+
+#headline > #summary {
+	flex: 1;
+	min-width: 300px;
+}
+
+#headline > #headshot {
+	min-width: 150px;
+	max-width: 200px;
+	width: 30%;
 }
 
 #headshot > img {
 	width: 100%;
+	aspect-ratio: 1;
 	border-radius: 50%;
-	border: 2px solid var(--color5);
+	border: 2px solid var(--color2);
 }
 
 li.icon {
