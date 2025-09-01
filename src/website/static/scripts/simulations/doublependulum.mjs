@@ -106,7 +106,7 @@ export class DoublePendulum extends Simulation2D {
 	get energyKinetic() {
 		const { m1, m2, l1, l2 } = this;
 		const [theta1, theta2] = this.integrator.pos;
-		const [omega1, omega2] = this.integrator.vel;
+		const [omega1, omega2] = this.integrator.pos;
 		const I1 = m1 * l1 ** 2;
 		const I2 =
 			m2 *
