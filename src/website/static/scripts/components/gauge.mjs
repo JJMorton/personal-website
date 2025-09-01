@@ -1,3 +1,5 @@
+import { computed } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
+
 let i = 0;
 
 export default {
@@ -7,21 +9,26 @@ export default {
 		value: Number,
 		min: Number,
 		max: Number,
+		decimals: Number,
 		units: String,
-		disabled: Boolean,
 	},
 	template: `
 		<div class="gauge">
 			<label :for="id">
 				<span class="name">{{ name }}</span>
-				<output :for="id">{{ value }}</output>
+				<output :for="id">{{ rounded }}</output>
 				<span class="units">{{ units }}</span>
 			</label>
-			<meter :disabled :id :value :min :max></meter>
+			<meter :id :value :min :max></meter>
 		</div>
 	`,
 	setup(props) {
 		const id = `gauge${i++}`;
-		return { id };
+		const rounded = computed(() =>
+			props.value.toFixed(
+				props.decimals === undefined ? 3 : props.decimals,
+			),
+		);
+		return { id, rounded };
 	},
 };

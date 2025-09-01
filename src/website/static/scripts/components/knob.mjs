@@ -13,7 +13,7 @@ export default {
 		step: Number,
 		disabled: Boolean,
 	},
-	emits: ["update:value"],
+	emits: ["update:value", "grab", "release"],
 	template: `
 		<div class="knob" :style>
 			<div
@@ -78,6 +78,7 @@ export default {
 			}
 
 			changing.value = true;
+			emit("grab");
 
 			// Listen for mouse move events when pressed, and compute the new value each time
 			const moveListener = (e) => {
@@ -106,6 +107,7 @@ export default {
 				window.removeEventListener("mouseup", upListener);
 				window.removeEventListener("touchend", upListener);
 				changing.value = false;
+				emit("release");
 			};
 			window.addEventListener("mouseup", upListener);
 			window.addEventListener("touchend", upListener);

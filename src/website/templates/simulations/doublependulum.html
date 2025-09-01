@@ -1,0 +1,171 @@
+<!-- vim: set syntax=htmldjango: -->
+{% extends "base.html" %}
+
+{% block head %}
+	<link
+		rel="stylesheet"
+		type="text/css"
+		href="/static/styles/components.css"
+	/>
+
+	<script setup type="module">
+		import {
+			createApp,
+			ref,
+			reactive,
+			onMounted,
+		} from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
+		import {
+			Knob,
+			Checkbox,
+			Combobox,
+			Gauge,
+		} from "/static/scripts/simulation.mjs";
+		import {
+			EulerIntegrator,
+			RK4Integrator,
+		} from "/static/scripts/integrator.mjs";
+		import { DoublePendulum } from "/static/scripts/simulations/doublependulum.mjs";
+
+		createApp({
+			components: { Knob, Checkbox, Combobox, Gauge },
+			setup() {
+				const sim = new DoublePendulum({
+					g: 9.8,
+					m1: 1,
+					m2: 0.5,
+					l1: 1,
+					l2: 0.5,
+					timestep: 0.01,
+					trailduration: 5,
+					showtrail: true,
+					showpendulum: true,
+					integrator: RK4Integrator,
+				});
+
+				const canvas = ref(null);
+				onMounted(() => {
+					sim.attach(canvas.value);
+					sim.start();
+				});
+
+				const kineticPercent = ref(0);
+				const potentialPercent = ref(100);
+				window.requestAnimationFrame(function updateMeters() {
+					kineticPercent.value =
+						(100 * sim.energyKinetic) / sim.energyTotal;
+					potentialPercent.value =
+						(100 * sim.energyPotential) / sim.energyTotal;
+					window.requestAnimationFrame(updateMeters);
+				});
+
+				return {
+					canvas,
+					params: reactive(sim),
+					kineticPercent,
+					potentialPercent,
+					stop: () => {
+						sim.stop();
+						sim.reset();
+					},
+					start: () => {
+						sim.reset();
+						sim.start();
+					},
+				};
+			},
+		}).mount("#app");
+	</script>
+{% endblock %}
+
+{% block content %}
+	<h1>Double Pendulum</h1>
+	<div id="app">
+		<div class="control-group">
+			<Checkbox
+				name="Show Trail"
+				v-model:checked="params.showtrail"
+			></Checkbox>
+			<Checkbox
+				name="Show Pendulum"
+				v-model:checked="params.showpendulum"
+			></Checkbox>
+		</div>
+		<div class="control-group">
+			<Knob
+				name="Mass 1"
+				units="kg"
+				:min="0.1"
+				:max="3"
+				:step="0.01"
+				v-model:value="params.m1"
+				@grab="stop"
+				@release="start"
+			></Knob>
+			<Knob
+				name="Mass 2"
+				units="kg"
+				:min="0.1"
+				:max="3"
+				:step="0.01"
+				v-model:value="params.m2"
+				@grab="stop"
+				@release="start"
+			></Knob>
+			<Knob
+				name="Length 1"
+				units="m"
+				:min="0.1"
+				:max="3"
+				:step="0.01"
+				v-model:value="params.l1"
+				@grab="stop"
+				@release="start"
+			></Knob>
+			<Knob
+				name="Length 2"
+				units="m"
+				:min="0.1"
+				:max="3"
+				:step="0.01"
+				v-model:value="params.l2"
+				@grab="stop"
+				@release="start"
+			></Knob>
+			<Knob
+				name="Gravity"
+				units="m/s^2"
+				:min="0.1"
+				:max="20"
+				:step="0.1"
+				v-model:value="params.g"
+				@grab="stop"
+				@release="start"
+			></Knob>
+		</div>
+		<div id="canvas-container">
+			<canvas ref="canvas"></canvas>
+		</div>
+		<p class="align-right">
+			<i>Click/tap to move to the pendulum</i>
+		</p>
+		<div class="control-group">
+			<Gauge
+				name="Kinetic Energy"
+				:min="0"
+				:max="100"
+				:decimals="0"
+				units="%"
+				:value="kineticPercent"
+			></Gauge>
+			<Gauge
+				name="Potential Energy"
+				:min="0"
+				:max="100"
+				:decimals="0"
+				units="%"
+				:value="potentialPercent"
+			></Gauge>
+		</div>
+	</div>
+{% endblock %}

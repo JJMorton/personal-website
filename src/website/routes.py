@@ -47,3 +47,12 @@ def simulation_test():
     return render_template(
         "simulations/test.html", id="simulation_test", title="Test Simulation"
     )
+
+
+@app.route("/simulations/doublependulum")
+def simulation_doublependulum():
+    return render_template(
+        "simulations/doublependulum.html",
+        id="simulation_doublependulum",
+        title="Double Pendulum",
+    )
