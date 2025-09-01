@@ -11,13 +11,15 @@
 
 /* CONTROL GROUPS */
 
-.control-group {
-	display: flex;
-	flex-direction: column;
+.control-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 10px;
 }
 
-.control-group > * {
-	padding: 5px 0 5px var(--edge-padding);
+.control-group {
+	display: grid;
+	gap: 10px;
 }
 
 /* KNOBS */
