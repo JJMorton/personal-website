@@ -98,7 +98,6 @@ section.highlight {
 	color: var(--color1);
 	padding: var(--edge-padding);
 	border-radius: 10px;
-	box-shadow: 0 0 3px 0 var(--color4);
 }
 
 /* Flex boxes */
@@ -219,7 +218,7 @@ header::after {
 
 #content {
 	padding: var(--edge-padding);
-	border-bottom: 10px solid var(--color3);
+	border-bottom: 8px solid var(--color2);
 	min-height: 50vh;
 }
 
@@ -278,6 +277,8 @@ header {
 	gap: var(--edge-padding);
 	justify-content: start;
 	align-items: center;
+	border-bottom: 5px solid var(--color3);
+	box-shadow: 0 5px 0 0 var(--color2);
 }
 
 #headline > #summary {
@@ -353,6 +354,7 @@ li.orcid::before {
 footer {
 	position: relative;
 	padding: var(--edge-padding);
+	border-top: 8px solid var(--color3);
 }
 
 @media only screen and (width > 600px) {
