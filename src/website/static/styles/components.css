@@ -123,16 +123,17 @@
 	width: 100%;
 	height: 0.75em;
 	border-radius: 0.75em;
-	border: 1px solid var(--color3);
-	background: white;
+	border: 1px solid var(--color2);
+	background: var(--color2);
+	box-shadow: 0 0 2px 0 var(--color5) inset;
 }
 
 .gauge > meter::-webkit-meter-bar,
 .gauge > meter::-moz-meter-bar {
 	background:
-		linear-gradient(-90deg, transparent -200px, var(--color3) 300px),
+		linear-gradient(-90deg, transparent 0px, var(--color4) 30vw),
 		url("/static/img/moire-dark.png") repeat,
-		var(--color3);
+		var(--color5);
 	background-position: top left;
 }
 

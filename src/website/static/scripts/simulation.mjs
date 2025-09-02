@@ -215,7 +215,7 @@ class Simulation {
 			this.colours = {
 				background: style.getPropertyValue("--color-background"),
 				foreground: style.getPropertyValue("--color-text"),
-				accent: style.getPropertyValue("--color4"),
+				accent: style.getPropertyValue("--color3"),
 			};
 		};
 		recolour();

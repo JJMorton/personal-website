@@ -94,7 +94,10 @@ section {
 }
 
 section.highlight {
-	background: linear-gradient(var(--color5) 0%, transparent 100%), url("/static/img/moire-dark.png") repeat, var(--color5);
+	background:
+		linear-gradient(var(--color5) 0%, transparent 100%),
+		url("/static/img/moire-dark.png") repeat,
+		var(--color5);
 	color: var(--color1);
 	padding: var(--edge-padding);
 	border-radius: 10px;
