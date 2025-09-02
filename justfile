@@ -5,7 +5,7 @@ init:
 
 debug:
 	# Running debug server with flask
-	uv run flask --app website:app run --debug
+	uv run flask --app website:app run --debug --host 0.0.0.0
 
 lint:
 	# Linting Python files with ruff
