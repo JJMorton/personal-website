@@ -44,12 +44,12 @@
 					kineticPercent,
 					potentialPercent,
 					stop: () => {
-						sim.stop();
+						sim.timer.pause();
 						sim.reset();
 					},
 					start: () => {
 						sim.reset();
-						sim.start();
+						sim.timer.start();
 					},
 				};
 			},
@@ -58,7 +58,10 @@
 {% endblock %}
 
 {% block content %}
-	<h1>Double Pendulum</h1>
+	<h1>{{ title }}</h1>
+	<p>
+		One pendulum attached to another: a simple system that nevertheless exhibits chaotic behaviour.
+	</p>
 	<div id="app">
 		<div class="control-group">
 			<Checkbox

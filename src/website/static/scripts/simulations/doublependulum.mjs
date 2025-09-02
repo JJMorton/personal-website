@@ -84,10 +84,7 @@ export class DoublePendulum extends Simulation2D {
 
 	start() {
 		this.timer.start();
-	}
-
-	stop() {
-		this.timer.pause();
+		super.start();
 	}
 
 	reset() {
@@ -182,11 +179,11 @@ export class DoublePendulum extends Simulation2D {
 			);
 			const theta = Math.PI / 2 - mouse.sub(pivot).getHeading();
 			this.integrator.pos[0] = theta;
-			this.stop();
+			this.timer.pause();
 			this.reset();
 			this.dragging = true;
 		} else if (this.dragging) {
-			this.start();
+			this.timer.start();
 			this.dragging = false;
 		}
 
