@@ -30,7 +30,7 @@ export default {
 				<p class="name">{{ name }}</p>
 				<p>
 					<output :for="id">{{ value }}</output>
-					<span class="units">{{ units }}</span>
+					<span class="units">&nbsp;{{ units }}</span>
 				</p>
 			</label>
 		</div>
