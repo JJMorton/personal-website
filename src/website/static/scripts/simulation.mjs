@@ -204,7 +204,7 @@ class Simulation {
 		throw Error("Not implemented");
 	}
 
-	createContext() {
+	async createContext() {
 		throw Error("Not implemented");
 	}
 
@@ -213,7 +213,7 @@ class Simulation {
 		const recolour = () => {
 			const style = window.getComputedStyle(document.documentElement);
 			this.colours = {
-				background: style.getPropertyValue("--color-background"),
+				background: style.getPropertyValue("--color-content-bg"),
 				foreground: style.getPropertyValue("--color-text"),
 				accent: style.getPropertyValue("--color3"),
 			};
@@ -230,16 +230,18 @@ class Simulation {
 	 * Attach to the given canvas element and begin the time loop
 	 * @param {HTMLCanvasElement} canvas
 	 */
-	attach(canvas) {
+	async attach(canvas) {
 		this.canvas = canvas;
-		const ctx = this.createContext();
+		const ctx = await this.createContext();
 		if (!ctx) throw Error("Could not create canvas rendering context");
 		this.ctx = ctx;
 
 		// Automatically resize the canvas with the window
 		this.resize();
 		window.addEventListener("resize", () => this.resize());
+	}
 
+	start() {
 		let prevTime = document.timeline.currentTime;
 		const render = (millis) => {
 			// We want all the units in seconds, to make other units more realistic
@@ -286,7 +288,13 @@ class Simulation {
 
 /** I wrap a canvas element with the `2d` context */
 export class Simulation2D extends Simulation {
-	createContext() {
+	/** @type {CanvasRenderingContext2D} */
+	ctx;
+
+	/**
+	 * @returns {Promise<CanvasRenderingContext2D>}
+	 */
+	async createContext() {
 		const ctx = this.canvas.getContext("2d");
 		if (!ctx) throw Error("Failed to create 2d context");
 		return ctx;
@@ -314,9 +322,37 @@ export class Simulation2D extends Simulation {
 
 /** I wrap a canvas element with the `webgl2` context */
 export class SimulationGL extends Simulation {
-	createContext() {
+
+	/** URL of the vertex shader @type {string} */
+	vertFile;
+	/** URL of the fragment shader @type {string} */
+	fragFile;
+	/** @type {WebGL2RenderingContext} */
+	ctx;
+	/** @type WebGLProgram */
+	program;
+
+	#uniforms = new Map();
+	#attributes = new Map();
+
+	/**
+	 * Create the shader program from the provided shader files.
+	 * @param {String} vertFile Path to the vertex shader
+	 * @param {String} fragFile Path to the fragment shader
+	 */
+	constructor(vertFile, fragFile) {
+		super()
+		this.vertFile = vertFile;
+		this.fragFile = fragFile;
+	}
+
+	/**
+	 * @returns {Promise<WebGL2RenderingContext>}
+	 */
+	async createContext() {
 		const ctx = this.canvas.getContext("webgl2");
 		if (!ctx) throw Error("Failed to create webgl2 context");
+		this.program = await this.#createShaderProgram(ctx);
 		return ctx;
 	}
 
@@ -327,14 +363,78 @@ export class SimulationGL extends Simulation {
 	}
 
 	/**
+	 * @param {string} name
+	 * @param {function} setter should be one of gl.uniform3fv, gl.uniform1i, etc.
+	 * @returns {SimulationGL} this
+	 */
+	addUniform(name, setter) {
+		const loc = this.ctx.getUniformLocation(this.program, name);
+		if (loc === null) {
+			throw Error(`Failed to find uniform ${name}`);
+		}
+		this.#uniforms.set(name, {
+			location: loc,
+			setter: setter.bind(this.ctx),
+		});
+	}
+
+	/**
+	 * @param {string} name
+	 * @param {any} value should match the value required by the setter given to `addUniform`
+	 * @returns {SimulationGL} this
+	 */
+	setUniform(name, value) {
+		if (!this.#uniforms.has(name)) {
+			console.error("Attempted to set non-existent uniform", name);
+			return this;
+		}
+		const uni = this.#uniforms.get(name);
+		this.ctx.useProgram(this.program);
+		uni.setter(uni.location, value);
+	}
+
+	/**
+	 * @param {string} name
+	 * @param {number} usage e.g. gl.DYNAMIC_DRAW.
+	 * @param {number} size
+	 * @param {number} type e.g. gl.FLOAT.
+	 * @param {number} stride
+	 * @returns {SimulationGL} this
+	 */
+	addAttribute(name, usage, size, type, stride, divisor=0, offset=0) {
+		const loc = this.ctx.getAttribLocation(this.program, name);
+		if (loc === -1) {
+			throw Error(`Failed to find attribute ${name}`);
+		}
+		const buffer = this.ctx.createBuffer();
+		this.ctx.bindBuffer(this.ctx.ARRAY_BUFFER, buffer);
+		this.ctx.enableVertexAttribArray(loc);
+		this.ctx.vertexAttribPointer(loc, size, type, false, stride, offset);
+		this.ctx.vertexAttribDivisor(loc, divisor);
+		this.#attributes.set(name, { loc, buffer, usage });
+	}
+
+	/**
+	 * @param {string} name
+	 * @param {Float32Array} data
+	 * @returns {SimulationGL} this
+	 */
+	setAttribute(name, data) {
+		if (!this.#attributes.has(name)) {
+			console.error("Attempted to set non-existent attribute", name);
+			return;
+		}
+		const attrib = this.#attributes.get(name);
+		this.ctx.bindBuffer(this.ctx.ARRAY_BUFFER, attrib.buffer);
+		this.ctx.bufferData(this.ctx.ARRAY_BUFFER, data, attrib.usage);
+	}
+
+	/**
 	 * Create the shader program from the provided shader files.
-	 * @param {String} vertFile Path to the vertex shader
-	 * @param {String} fragFile Path to the fragment shader
+	 * @param {WebGL2RenderingContext} gl
 	 * @return {Promise<WebGLProgram>} The compiled shader program
 	 */
-	createShaderProgram(vertFile, fragFile) {
-		const gl = this.ctx;
-
+	#createShaderProgram(gl) {
 		// Creates a shader program from vertex and fragment shader files
 		return new Promise((resolve, reject) => {
 			const fetchFile = (path) =>
@@ -369,9 +469,9 @@ export class SimulationGL extends Simulation {
 				return shader;
 			};
 
-			fetchFile(vertFile)
+			fetchFile(this.vertFile)
 				.then((vertSrc) => {
-					fetchFile(fragFile)
+					fetchFile(this.fragFile)
 						.then((fragSrc) => {
 							// We have both the shaders as source code, compile them
 							const vertShader = compileShader(

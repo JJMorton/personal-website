@@ -1,0 +1,106 @@
+<!-- vim: set syntax=htmldjango: -->
+{% extends "base.html" %}
+
+{% block head %}
+	<link
+		rel="stylesheet"
+		type="text/css"
+		href="/static/styles/components.css"
+	/>
+
+	<script setup type="module">
+		import {
+			createApp,
+			ref,
+			reactive,
+			onMounted,
+		} from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
+		import { Knob, Checkbox } from "/static/scripts/simulation.mjs";
+		import { Snowflake } from "/static/scripts/simulations/snowflake.mjs";
+
+		createApp({
+			components: { Knob, Checkbox },
+			setup() {
+
+				const sim = new Snowflake();
+				const canvas = ref(null);
+				onMounted(() => {
+					sim.attach(canvas.value).then(
+						() => sim.start()
+					);
+				});
+
+				return {
+					canvas,
+					params: reactive(sim),
+					stop: () => {
+						sim.timer.pause();
+					},
+					start: () => {
+						sim.timer.start();
+					},
+					reset: () => {
+						sim.reset();
+						sim.timer.start();
+					},
+				}
+
+			},
+		}).mount("#app");
+	</script>
+{% endblock %}
+
+{% block content %}
+	<h1>{{ title }}</h1>
+	<p>
+		This is an implementation of the "local cellular model for snow crystal growth" detailed in <a href="https://doi.org/10.1016/j.chaos.2004.06.071">Reiter (2005)</a>.
+		The evolution of each cell is influenced only by itself and its neighbours.
+		The grid is hexagonal, using the axial coordinate system given in <a href="https://www.redblobgames.com/grids/hexagons/#coordinates-axial">this guide</a>.
+	</p>
+	<div id="app">
+		<div id="canvas-container">
+			<canvas ref="canvas"></canvas>
+		</div>
+		<div class="control-group">
+			<div class="control-grid">
+				<Knob
+					name="α: Diffusion"
+					:min="0.5"
+					:max="2"
+					:step="0.1"
+					v-model:value="params.alpha"
+					@grab="stop"
+					@release="reset"
+				></Knob>
+				<Knob
+					name="β: Background Vapour"
+					:min="0.0"
+					:max="0.9"
+					:step="0.1"
+					v-model:value="params.beta"
+					@grab="stop"
+					@release="reset"
+				></Knob>
+				<Knob
+					name="γ: Vapour Addition"
+					:min="0.0"
+					:max="0.01"
+					:step="0.001"
+					v-model:value="params.gamma"
+					@grab="stop"
+					@release="reset"
+				></Knob>
+			</div>
+			<Knob
+				name="Grid Radius"
+				units="cells"
+				:min="20"
+				:max="70"
+				:step="5"
+				v-model:value="params.gridradius"
+				@grab="stop"
+				@release="reset"
+			></Knob>
+		</div>
+	</div>
+{% endblock %}

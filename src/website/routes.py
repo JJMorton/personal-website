@@ -35,13 +35,6 @@ def moire():
     return render_template("moire/index.html", id="moire", title="Moiré Patterns")
 
 
-@app.route("/simulations")
-def simulations():
-    return render_template(
-        "simulations/index.html", id="simulations", title="Simulations"
-    )
-
-
 @app.route("/simulations/test")
 def simulation_test():
     return render_template(
@@ -55,4 +48,13 @@ def simulation_doublependulum():
         "simulations/doublependulum.html",
         id="simulation_doublependulum",
         title="Double Pendulum",
+    )
+
+
+@app.route("/simulations/snowflake")
+def simulation_snowflake():
+    return render_template(
+        "simulations/snowflake.html",
+        id="simulation_snowflake",
+        title="Snowflake Automata",
     )
