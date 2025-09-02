@@ -274,7 +274,8 @@ header {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	gap: var(--edge-padding);
+	column-gap: calc(2 * var(--edge-padding));
+	row-gap: var(--edge-padding);
 	justify-content: start;
 	align-items: center;
 	border-bottom: 5px solid var(--color3);
@@ -283,7 +284,14 @@ header {
 
 #headline > #summary {
 	flex: 1;
-	min-width: 300px;
+	min-width: 70%;
+	display: flex;
+	flex-direction: column;
+	row-gap: var(--edge-padding);
+}
+
+#headline > #summary > * {
+	margin: 0;
 }
 
 #headline > #headshot {
