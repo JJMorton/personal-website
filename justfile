@@ -1,3 +1,8 @@
+init:
+	uv venv
+	uv sync
+	npm install
+
 debug:
 	# Running debug server with flask
 	uv run flask --app website:app run --debug
