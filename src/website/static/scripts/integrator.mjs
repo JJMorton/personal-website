@@ -79,7 +79,7 @@ class Integrator {
 }
 
 /**
- * Basic Euler integration
+ * First order Euler integration
  */
 export class EulerIntegrator extends Integrator {
 	/**
@@ -95,10 +95,9 @@ export class EulerIntegrator extends Integrator {
 	}
 }
 
-/*
+/**
  * Fourth order Runge-Kutta integration
  */
-
 export class RK4Integrator extends Integrator {
 	/**
 	 * @param {number} t
