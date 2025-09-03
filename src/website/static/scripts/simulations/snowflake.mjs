@@ -1,13 +1,12 @@
 import { SimulationGL, Timer } from "../simulation.mjs";
-import { Vector } from "../vector.mjs"
-
+import { Vector } from "../vector.mjs";
 
 /**
  * @param {string} hex
  * @returns {number[3]}
  */
 function hexToRGB(hex) {
-	if (hex.substring(0, 1) === '#') hex = hex.substring(1);
+	if (hex.substring(0, 1) === "#") hex = hex.substring(1);
 	var bigint = parseInt(hex.substring(0, 6), 16);
 	var r = (bigint >> 16) & 255;
 	var g = (bigint >> 8) & 255;
@@ -17,7 +16,6 @@ function hexToRGB(hex) {
 }
 
 class GLPolygon {
-
 	/** @type Vector[] */
 	vertices = [];
 	/** @type WebGLBuffer | null */
@@ -59,7 +57,11 @@ class GLPolygon {
 	createBuffer() {
 		this.buffer = this.gl.createBuffer();
 		this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer);
-		this.gl.bufferData(this.gl.ARRAY_BUFFER, this.asPositionArray(), this.gl.STATIC_DRAW);
+		this.gl.bufferData(
+			this.gl.ARRAY_BUFFER,
+			this.asPositionArray(),
+			this.gl.STATIC_DRAW,
+		);
 		return this;
 	}
 
@@ -69,7 +71,7 @@ class GLPolygon {
 	 * @returns {Float32Array}
 	 */
 	asPositionArray() {
-		const vertArr = this.vertices.map(v => Array.from(v)).flat();
+		const vertArr = this.vertices.map((v) => Array.from(v)).flat();
 		return new Float32Array(vertArr);
 	}
 
@@ -84,9 +86,7 @@ class GLPolygon {
 	}
 }
 
-
 class GLHexagon extends GLPolygon {
-
 	/**
 	 * @param {WebGL2RenderingContext} gl
 	 */
@@ -94,15 +94,13 @@ class GLHexagon extends GLPolygon {
 		const N = 6;
 		const vertices = new Array(N)
 			.fill(0)
-			.map((_, i) => (i + 0.5) * 2 * Math.PI / N)
-			.map(theta => new Vector([Math.cos(theta), Math.sin(theta)]));
+			.map((_, i) => ((i + 0.5) * 2 * Math.PI) / N)
+			.map((theta) => new Vector([Math.cos(theta), Math.sin(theta)]));
 		super(gl, vertices);
 	}
 }
 
-
 class GLInstanced extends GLPolygon {
-
 	/** @type number */
 	nInstances;
 
@@ -112,7 +110,7 @@ class GLInstanced extends GLPolygon {
 	 * @param {Vector[]} obj.vertices
 	 * @param {number} nInstances
 	 */
-	constructor({gl, vertices}, nInstances) {
+	constructor({ gl, vertices }, nInstances) {
 		super(gl, vertices);
 		this.nInstances = nInstances;
 	}
@@ -124,18 +122,21 @@ class GLInstanced extends GLPolygon {
 		this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer);
 		this.gl.vertexAttribPointer(0, 2, this.gl.FLOAT, false, 0, 0);
 		this.gl.enableVertexAttribArray(0);
-		this.gl.drawArraysInstanced(this.gl.TRIANGLE_FAN, 0, this.sides, this.nInstances);
+		this.gl.drawArraysInstanced(
+			this.gl.TRIANGLE_FAN,
+			0,
+			this.sides,
+			this.nInstances,
+		);
 		return this;
 	}
 }
-
 
 /**
  * A hexagonal grid with the axial coordinate system, explained here:
  * https://www.redblobgames.com/grids/hexagons/#coordinates-axial
  */
 class HexagonGrid {
-
 	/**
 	 * The number of hexagonal 'layers' from the centre (not including centre piece)
 	 * @type {number}
@@ -168,7 +169,7 @@ class HexagonGrid {
 	 * @type {number}
 	 */
 	get cellCount() {
-		const sumN = (N) => N * (N + 1) / 2;
+		const sumN = (N) => (N * (N + 1)) / 2;
 		return 1 + sumN(this.radius) * 6;
 	}
 
@@ -182,9 +183,9 @@ class HexagonGrid {
 			for (let j = -this.radius; j <= this.radius; j++) {
 				// Convert to axial coordinates (q, r)
 				const q = j - (i + (i & 1)) / 2;
-			    const r = i;
-			    const cell = this.getCell(q, r);
-			    if (cell) arr.push(cell);
+				const r = i;
+				const cell = this.getCell(q, r);
+				if (cell) arr.push(cell);
 			}
 		}
 		return arr;
@@ -196,7 +197,7 @@ class HexagonGrid {
 	 * @returns {string}
 	 */
 	#axialHash(q, r) {
-		return q.toString() + ',' + r.toString();
+		return q.toString() + "," + r.toString();
 	}
 
 	/**
@@ -216,7 +217,7 @@ class HexagonGrid {
 	 * @param {SnowflakeCell} value
 	 * @param {boolean} [canCreate]
 	 */
-	setCell(q, r, value, canCreate=false) {
+	setCell(q, r, value, canCreate = false) {
 		if (Math.abs(q) > this.radius || Math.abs(r) > this.radius) {
 			// Not a valid cell
 			console.warn(`Attempted to set invalid cell (${q}, ${r})`);
@@ -246,13 +247,15 @@ class HexagonGrid {
 	 */
 	neighboursOf(q, r) {
 		return [
-			[q, r+1],
-			[q, r-1],
-			[q+1, r],
-			[q-1, r],
-			[q+1, r-1],
-			[q-1, r+1]
-		].filter(([q, r]) => this.hasCell(q, r)).map(([q, r]) => this.getCell(q, r));
+			[q, r + 1],
+			[q, r - 1],
+			[q + 1, r],
+			[q - 1, r],
+			[q + 1, r - 1],
+			[q - 1, r + 1],
+		]
+			.filter(([q, r]) => this.hasCell(q, r))
+			.map(([q, r]) => this.getCell(q, r));
 	}
 
 	/**
@@ -270,32 +273,41 @@ class HexagonGrid {
 			cells.push(this.getCell(-q, R));
 		}
 		for (let x = 1; x < R; x++) {
-			cells.push(this.getCell(x, R-x));
-			cells.push(this.getCell(x-R, -x));
+			cells.push(this.getCell(x, R - x));
+			cells.push(this.getCell(x - R, -x));
 		}
 		return cells;
 	}
 
 	*[Symbol.iterator]() {
 		for (let q = -this.radius; q <= this.radius; q++) {
-			for (let r = 1; r <= this.radius && Math.abs(r + q) <= this.radius; r++) {
-				yield([q, r]);
+			for (
+				let r = 1;
+				r <= this.radius && Math.abs(r + q) <= this.radius;
+				r++
+			) {
+				yield [q, r];
 			}
-			for (let r = 0; r >= -this.radius && Math.abs(r + q) <= this.radius; r--) {
-				yield([q, r]);
+			for (
+				let r = 0;
+				r >= -this.radius && Math.abs(r + q) <= this.radius;
+				r--
+			) {
+				yield [q, r];
 			}
 		}
 	}
 }
-
 
 /**
  * A single hexagonal grid cell, with a saturation value, as described in
  * https://doi.org/10.1016/j.chaos.2004.06.071
  */
 class SnowflakeCell {
-
-	u = 0; v = 0; u_next = 0; v_next = 0;
+	u = 0;
+	v = 0;
+	u_next = 0;
+	v_next = 0;
 
 	/** @param {number} saturation */
 	constructor(saturation) {
@@ -310,7 +322,6 @@ class SnowflakeCell {
 	}
 }
 
-
 /**
  * @param {HexagonGrid} hexgrid
  * @param {number} alpha
@@ -319,13 +330,12 @@ class SnowflakeCell {
  * @returns {boolean} whether the snowflake is complete or not
  */
 function evolveSnowflake(hexgrid, alpha, beta, gamma) {
-
 	for (const [q, r] of hexgrid) {
 		const cell = hexgrid.getCell(q, r);
 		const neighbours = hexgrid.neighboursOf(q, r);
 		const isEdge = neighbours.length < 6;
 
-		const receptive = cell.frozen || neighbours.some(c => c.frozen);
+		const receptive = cell.frozen || neighbours.some((c) => c.frozen);
 		if (receptive) {
 			// This cell is frozen or has frozen neighbours, so it is receptive
 			cell.v = cell.s;
@@ -350,7 +360,7 @@ function evolveSnowflake(hexgrid, alpha, beta, gamma) {
 			cell.v_next = 0;
 			continue;
 		}
-		const receptive = cell.frozen || neighbours.some(c => c.frozen);
+		const receptive = cell.frozen || neighbours.some((c) => c.frozen);
 
 		// Constant addition
 		if (receptive) {
@@ -373,7 +383,6 @@ function evolveSnowflake(hexgrid, alpha, beta, gamma) {
 }
 
 export class Snowflake extends SimulationGL {
-
 	timer = new Timer();
 
 	/** @type {HexagonGrid} */
@@ -391,20 +400,22 @@ export class Snowflake extends SimulationGL {
 		this.gamma = gamma;
 		this.gridradius = gridradius;
 
-		this.reset()
+		this.reset();
 	}
 
 	reset() {
-		this.grid = new HexagonGrid(this.gridradius).init(() => new SnowflakeCell(this.beta));
+		this.grid = new HexagonGrid(this.gridradius).init(
+			() => new SnowflakeCell(this.beta),
+		);
 		this.grid.setCell(0, 0, new SnowflakeCell(1));
 	}
 
 	start() {
 		const gl = this.ctx;
 		// Define uniforms
-		this.addUniform("u_resolution", gl.uniform2fv)
-		this.addUniform("u_gridradius", gl.uniform1i)
-		this.addUniform("u_accentcolor", gl.uniform3fv)
+		this.addUniform("u_resolution", gl.uniform2fv);
+		this.addUniform("u_gridradius", gl.uniform1i);
+		this.addUniform("u_accentcolor", gl.uniform3fv);
 		// Add attributes
 		this.addAttribute("a_color", gl.DYNAMIC_DRAW, 1, gl.FLOAT, 4, 1);
 		// Enable depth test
@@ -423,20 +434,33 @@ export class Snowflake extends SimulationGL {
 
 		// Set the colour of the cell as a proportion of the maximum saturation
 		// Limit this maximum to be no lower than twice the background saturation
-		const maxSat = Math.max(2.0 * this.beta, ...this.grid.cellArray.map(cell => cell.s));
-		const cellToCol = cell => (cell.s - 1) / (maxSat - 1);
+		const maxSat = Math.max(
+			2.0 * this.beta,
+			...this.grid.cellArray.map((cell) => cell.s),
+		);
+		const cellToCol = (cell) => (cell.s - 1) / (maxSat - 1);
 
 		const gl = this.ctx;
 		gl.useProgram(this.program);
-		gl.clearColor(...hexToRGB(this.colours.background).map(x => x/255), 1.0);
+		gl.clearColor(
+			...hexToRGB(this.colours.background).map((x) => x / 255),
+			1.0,
+		);
 		gl.clear(gl.COLOR_BUFFER_BIT);
 
-		this.setUniform("u_resolution", new Float32Array([this.canvas.width, this.canvas.height]))
-		this.setUniform("u_gridradius", this.grid.radius)
-		this.setUniform("u_accentcolor",
-			new Float32Array(hexToRGB(this.colours.accent).map(x => x/255))
-		)
-		this.setAttribute("a_color", new Float32Array(this.grid.cellArray.map(cellToCol)));
+		this.setUniform(
+			"u_resolution",
+			new Float32Array([this.canvas.width, this.canvas.height]),
+		);
+		this.setUniform("u_gridradius", this.grid.radius);
+		this.setUniform(
+			"u_accentcolor",
+			new Float32Array(hexToRGB(this.colours.accent).map((x) => x / 255)),
+		);
+		this.setAttribute(
+			"a_color",
+			new Float32Array(this.grid.cellArray.map(cellToCol)),
+		);
 
 		const hex = new GLInstanced(new GLHexagon(gl), this.grid.cellCount);
 		hex.render();

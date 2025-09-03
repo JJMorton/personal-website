@@ -21,13 +21,10 @@
 		createApp({
 			components: { Knob, Checkbox },
 			setup() {
-
 				const sim = new Snowflake();
 				const canvas = ref(null);
 				onMounted(() => {
-					sim.attach(canvas.value).then(
-						() => sim.start()
-					);
+					sim.attach(canvas.value).then(() => sim.start());
 				});
 
 				return {
@@ -43,8 +40,7 @@
 						sim.reset();
 						sim.timer.start();
 					},
-				}
-
+				};
 			},
 		}).mount("#app");
 	</script>
@@ -53,9 +49,15 @@
 {% block content %}
 	<h1>{{ title }}</h1>
 	<p>
-		This is an implementation of the "local cellular model for snow crystal growth" detailed in <a href="https://doi.org/10.1016/j.chaos.2004.06.071">Reiter (2005)</a>.
-		The evolution of each cell is influenced only by itself and its neighbours.
-		The grid is hexagonal, using the axial coordinate system given in <a href="https://www.redblobgames.com/grids/hexagons/#coordinates-axial">this guide</a>.
+		This is an implementation of the "local cellular model for snow crystal
+		growth" detailed in
+		<a href="https://doi.org/10.1016/j.chaos.2004.06.071">Reiter (2005)</a>.
+		The evolution of each cell is influenced only by itself and its
+		neighbours. The grid is hexagonal, using the axial coordinate system
+		given in
+		<a href="https://www.redblobgames.com/grids/hexagons/#coordinates-axial"
+			>this guide</a
+		>.
 	</p>
 	<div id="app">
 		<div id="canvas-container">

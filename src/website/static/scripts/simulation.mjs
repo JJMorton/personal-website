@@ -322,7 +322,6 @@ export class Simulation2D extends Simulation {
 
 /** I wrap a canvas element with the `webgl2` context */
 export class SimulationGL extends Simulation {
-
 	/** URL of the vertex shader @type {string} */
 	vertFile;
 	/** URL of the fragment shader @type {string} */
@@ -341,7 +340,7 @@ export class SimulationGL extends Simulation {
 	 * @param {String} fragFile Path to the fragment shader
 	 */
 	constructor(vertFile, fragFile) {
-		super()
+		super();
 		this.vertFile = vertFile;
 		this.fragFile = fragFile;
 	}
@@ -401,7 +400,7 @@ export class SimulationGL extends Simulation {
 	 * @param {number} stride
 	 * @returns {SimulationGL} this
 	 */
-	addAttribute(name, usage, size, type, stride, divisor=0, offset=0) {
+	addAttribute(name, usage, size, type, stride, divisor = 0, offset = 0) {
 		const loc = this.ctx.getAttribLocation(this.program, name);
 		if (loc === -1) {
 			throw Error(`Failed to find attribute ${name}`);
