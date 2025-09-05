@@ -32,13 +32,13 @@ def colourtest():
 
 @app.route("/moire")
 def moire():
-    return render_template("moire/index.html", id="moire", title="Moiré Patterns")
+    return render_template("moire/index.html", id="other", title="Moiré Patterns")
 
 
 @app.route("/simulations/test")
 def simulation_test():
     return render_template(
-        "simulations/test.html", id="simulation_test", title="Test Simulation"
+        "simulations/test.html", id="other", title="Test Simulation"
     )
 
 
@@ -46,7 +46,7 @@ def simulation_test():
 def simulation_doublependulum():
     return render_template(
         "simulations/doublependulum.html",
-        id="simulation_doublependulum",
+        id="other",
         title="Double Pendulum",
     )
 
@@ -55,6 +55,6 @@ def simulation_doublependulum():
 def simulation_snowflake():
     return render_template(
         "simulations/snowflake.html",
-        id="simulation_snowflake",
+        id="other",
         title="Snowflake Automata",
     )
