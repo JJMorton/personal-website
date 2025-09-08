@@ -56,9 +56,6 @@
 		itself and its six neighbours.
 	</p>
 	<div id="app">
-		<div id="canvas-container">
-			<canvas ref="canvas"></canvas>
-		</div>
 		<div class="control-group">
 			<div class="control-grid">
 				<Knob
@@ -99,6 +96,9 @@
 				@grab="stop"
 				@release="reset"
 			></Knob>
+		</div>
+		<div id="canvas-container">
+			<canvas ref="canvas"></canvas>
 		</div>
 	</div>
 {% endblock %}
