@@ -1,4 +1,4 @@
-import { SimulationGL, Timer } from "../simulation.mjs";
+import { ToyGL, Timer } from "../toy.mjs";
 import { Vector } from "../vector.mjs";
 
 /**
@@ -382,7 +382,7 @@ function evolveSnowflake(hexgrid, alpha, beta, gamma) {
 	return false;
 }
 
-export class Snowflake extends SimulationGL {
+export class Snowflake extends ToyGL {
 	timer = new Timer();
 
 	/** @type {HexagonGrid} */

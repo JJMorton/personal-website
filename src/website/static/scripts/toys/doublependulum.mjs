@@ -1,8 +1,8 @@
 import { EulerIntegrator, RK4Integrator } from "../integrator.mjs";
-import { Mouse, Simulation2D, Timer, UnitConversions } from "../simulation.mjs";
+import { Mouse, Toy2D, Timer, UnitConversions } from "../toy.mjs";
 import { Vector } from "../vector.mjs";
 
-export class DoublePendulum extends Simulation2D {
+export class DoublePendulum extends Toy2D {
 	/** @type {{time: number, pos: Vector}[]} */
 	trail = [];
 

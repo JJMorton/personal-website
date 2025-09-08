@@ -5,7 +5,7 @@
 	<link
 		rel="stylesheet"
 		type="text/css"
-		href="/static/styles/components.css"
+		href="/static/styles/toys.css"
 	/>
 
 	<script setup type="module">
@@ -15,8 +15,8 @@
 			reactive,
 			onMounted,
 		} from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
-		import { Knob, Checkbox } from "/static/scripts/simulation.mjs";
-		import { Snowflake } from "/static/scripts/simulations/snowflake.mjs";
+		import { Knob, Checkbox } from "/static/scripts/toy.mjs";
+		import { Snowflake } from "/static/scripts/toys/snowflake.mjs";
 
 		createApp({
 			components: { Knob, Checkbox },

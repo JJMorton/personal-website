@@ -183,7 +183,7 @@ export class UnitConversions {
 }
 
 /** I wrap a canvas element with automatic resizing and colours */
-class Simulation {
+class Toy {
 	/** The canvas DOM element in the browser */
 	canvas;
 	/** The rendering context for this simulation */
@@ -287,7 +287,7 @@ class Simulation {
 }
 
 /** I wrap a canvas element with the `2d` context */
-export class Simulation2D extends Simulation {
+export class Toy2D extends Toy {
 	/** @type {CanvasRenderingContext2D} */
 	ctx;
 
@@ -321,7 +321,7 @@ export class Simulation2D extends Simulation {
 }
 
 /** I wrap a canvas element with the `webgl2` context */
-export class SimulationGL extends Simulation {
+export class ToyGL extends Toy {
 	/** URL of the vertex shader @type {string} */
 	vertFile;
 	/** URL of the fragment shader @type {string} */
@@ -364,7 +364,7 @@ export class SimulationGL extends Simulation {
 	/**
 	 * @param {string} name
 	 * @param {function} setter should be one of gl.uniform3fv, gl.uniform1i, etc.
-	 * @returns {SimulationGL} this
+	 * @returns {ToyGL} this
 	 */
 	addUniform(name, setter) {
 		const loc = this.ctx.getUniformLocation(this.program, name);
@@ -380,7 +380,7 @@ export class SimulationGL extends Simulation {
 	/**
 	 * @param {string} name
 	 * @param {any} value should match the value required by the setter given to `addUniform`
-	 * @returns {SimulationGL} this
+	 * @returns {ToyGL} this
 	 */
 	setUniform(name, value) {
 		if (!this.#uniforms.has(name)) {
@@ -398,7 +398,7 @@ export class SimulationGL extends Simulation {
 	 * @param {number} size
 	 * @param {number} type e.g. gl.FLOAT.
 	 * @param {number} stride
-	 * @returns {SimulationGL} this
+	 * @returns {ToyGL} this
 	 */
 	addAttribute(name, usage, size, type, stride, divisor = 0, offset = 0) {
 		const loc = this.ctx.getAttribLocation(this.program, name);
@@ -416,7 +416,7 @@ export class SimulationGL extends Simulation {
 	/**
 	 * @param {string} name
 	 * @param {Float32Array} data
-	 * @returns {SimulationGL} this
+	 * @returns {ToyGL} this
 	 */
 	setAttribute(name, data) {
 		if (!this.#attributes.has(name)) {
