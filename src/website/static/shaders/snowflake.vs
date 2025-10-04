@@ -7,8 +7,6 @@ const float HEX_HEIGHT = 3.0 / 2.0;
 uniform vec2 u_resolution;
 uniform int u_gridradius;
 uniform vec3 u_accentcolor;
-// TODO: Implement the global transforms from JS, so that we don't calculate them every time
-uniform mat2 transform;
 
 layout (location = 0) in vec2 a_position;
 layout (location = 1) in float a_color;
