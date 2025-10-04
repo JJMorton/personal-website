@@ -1,4 +1,4 @@
-import { ToyGL, Timer, Mouse, MouseButton } from "../toy.mjs";
+import { Mouse, MouseButton, Timer, ToyGL } from "../toy.mjs";
 import { Vector } from "../vector.mjs";
 
 /**
@@ -18,10 +18,9 @@ function hexToRGB(hex) {
 export const FractalType = {
 	ZPOWERN: 0,
 	NEWTON: 1,
-}
+};
 
 export class Fractals extends ToyGL {
-
 	// TODO: Add an explanation for each preset/some of the presets that
 	// appears when selecting them.
 
@@ -54,13 +53,25 @@ export class Fractals extends ToyGL {
 		// Create the vertex points to send to the shader program
 		// This is a pixel shader, so we just draw a square covering the canvas
 		const positions = new Float32Array([
-			-1.0, -1.0, 0.0, // bottom left
-			 1.0, -1.0, 0.0, // bottom right
-			-1.0,  1.0, 0.0, // top left
+			-1.0,
+			-1.0,
+			0.0, // bottom left
+			1.0,
+			-1.0,
+			0.0, // bottom right
+			-1.0,
+			1.0,
+			0.0, // top left
 
-			 1.0, -1.0, 0.0, // bottom right
-			 1.0,  1.0, 0.0, // top right
-			-1.0,  1.0, 0.0  // top left
+			1.0,
+			-1.0,
+			0.0, // bottom right
+			1.0,
+			1.0,
+			0.0, // top right
+			-1.0,
+			1.0,
+			0.0, // top left
 		]);
 		this.#positionBuffer = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.#positionBuffer);
@@ -69,19 +80,19 @@ export class Fractals extends ToyGL {
 		gl.enableVertexAttribArray(0);
 
 		// Register uniforms from GLSL
-		const onchange = () => this.needsRender = true;
-		this.addUniform("u_resolution",  gl.uniform2fv, onchange);
-		this.addUniform("u_time",        gl.uniform1f);
-		this.addUniform("u_position",    gl.uniform2fv, onchange);
-		this.addUniform("u_zoom",        gl.uniform1f,  onchange);
-		this.addUniform("u_iterations",  gl.uniform1i,  onchange);
-		this.addUniform("u_coeffs",      gl.uniform4fv, onchange);
-		this.addUniform("u_newton",      gl.uniform1fv, onchange);
-		this.addUniform("u_type",        gl.uniform1i,  onchange);
-		this.addUniform("u_z0",          gl.uniform2fv, onchange);
-		this.addUniform("u_zspace",      gl.uniform1i,  onchange);
-		this.addUniform("u_colorfg",     gl.uniform3fv);
-		this.addUniform("u_colorbg",     gl.uniform3fv);
+		const onchange = () => (this.needsRender = true);
+		this.addUniform("u_resolution", gl.uniform2fv, onchange);
+		this.addUniform("u_time", gl.uniform1f);
+		this.addUniform("u_position", gl.uniform2fv, onchange);
+		this.addUniform("u_zoom", gl.uniform1f, onchange);
+		this.addUniform("u_iterations", gl.uniform1i, onchange);
+		this.addUniform("u_coeffs", gl.uniform4fv, onchange);
+		this.addUniform("u_newton", gl.uniform1fv, onchange);
+		this.addUniform("u_type", gl.uniform1i, onchange);
+		this.addUniform("u_z0", gl.uniform2fv, onchange);
+		this.addUniform("u_zspace", gl.uniform1i, onchange);
+		this.addUniform("u_colorfg", gl.uniform3fv);
+		this.addUniform("u_colorbg", gl.uniform3fv);
 		this.addUniform("u_coloraccent", gl.uniform3fv);
 
 		// Initialise uniforms to defaults for a Mandelbrot
@@ -94,9 +105,15 @@ export class Fractals extends ToyGL {
 		this.uniforms.u_z0 = [0.0, 0.0];
 
 		// Set colours to those in the CSS
-		this.uniforms.u_colorfg = new Float32Array(hexToRGB(this.colours.foreground));
-		this.uniforms.u_colorbg = new Float32Array(hexToRGB(this.colours.background));
-		this.uniforms.u_coloraccent = new Float32Array(hexToRGB(this.colours.accent));
+		this.uniforms.u_colorfg = new Float32Array(
+			hexToRGB(this.colours.foreground),
+		);
+		this.uniforms.u_colorbg = new Float32Array(
+			hexToRGB(this.colours.background),
+		);
+		this.uniforms.u_coloraccent = new Float32Array(
+			hexToRGB(this.colours.accent),
+		);
 
 		// Set the canvas size correctly
 		this.resize();
@@ -110,11 +127,11 @@ export class Fractals extends ToyGL {
 		});
 
 		// Zooming with mouse wheel
-		this.canvas.addEventListener("wheel", e => {
+		this.canvas.addEventListener("wheel", (e) => {
 			const zoom = this.uniforms.u_zoom;
 			this.uniforms.u_zoom = Math.max(
 				0.5,
-				zoom + zoom * e.wheelDeltaY * 0.001
+				zoom + zoom * e.wheelDeltaY * 0.001,
 			);
 			this.needsRender = true;
 			e.preventDefault();
@@ -127,7 +144,7 @@ export class Fractals extends ToyGL {
 		if (this.ctx) {
 			this.uniforms.u_resolution = new Float32Array([
 				this.canvas.width,
-				this.canvas.height
+				this.canvas.height,
 			]);
 		}
 		this.needsRender = true;
@@ -146,8 +163,8 @@ export class Fractals extends ToyGL {
 			const position = new Vector([...this.uniforms.u_position]);
 			this.uniforms.u_position = position.add(
 				this.#moveOrigin
-				.sub(mousePos)
-				.divide(0.5 * this.canvas.width * this.uniforms.u_zoom)
+					.sub(mousePos)
+					.divide(0.5 * this.canvas.width * this.uniforms.u_zoom),
 			);
 			this.#moveOrigin = mousePos;
 			this.needsRender = true;
@@ -165,7 +182,5 @@ export class Fractals extends ToyGL {
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.#positionBuffer);
 		gl.drawArrays(gl.TRIANGLES, 0, 6);
 
-		console.log("render");
 	}
-
 }

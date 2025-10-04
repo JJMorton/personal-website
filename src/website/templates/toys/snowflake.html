@@ -2,11 +2,7 @@
 {% extends "base.html" %}
 
 {% block head %}
-	<link
-		rel="stylesheet"
-		type="text/css"
-		href="/static/styles/toys.css"
-	/>
+	<link rel="stylesheet" type="text/css" href="/static/styles/toys.css" />
 
 	<script setup type="module">
 		import {
@@ -55,9 +51,12 @@
 		The evolution of each cell in the hexagonal grid is influenced only by
 		itself and its six neighbours.
 	</p>
-	<p><i>
-		Note that this visualisation uses WebGL, so performance will depend on your computer's graphics processing capabilities.
-	</i></p>
+	<p>
+		<i>
+			Note that this visualisation uses WebGL, so performance will depend
+			on your computer's graphics processing capabilities.
+		</i>
+	</p>
 	<div id="app">
 		<div class="control-group">
 			<div class="control-grid">

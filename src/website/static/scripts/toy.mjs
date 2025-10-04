@@ -375,7 +375,7 @@ export class ToyGL extends Toy {
 	 * @param {string} name
 	 * @param {function} setter should be one of gl.uniform3fv, gl.uniform1i, etc.
 	 */
-	addUniform(name, setter, onchange=v => {}) {
+	addUniform(name, setter, onchange = (v) => {}) {
 		if (!this.ctx || !this.program) return;
 		const loc = this.ctx.getUniformLocation(this.program, name);
 		if (loc === null) {
@@ -383,7 +383,7 @@ export class ToyGL extends Toy {
 		}
 		Object.defineProperty(this.uniforms, name, {
 			get: () => this.ctx.getUniform(this.program, loc),
-			set: v => {
+			set: (v) => {
 				this.ctx.useProgram(this.program);
 				setter.bind(this.ctx)(loc, v);
 				onchange(v);

@@ -2,11 +2,7 @@
 {% extends "base.html" %}
 
 {% block head %}
-	<link
-		rel="stylesheet"
-		type="text/css"
-		href="/static/styles/toys.css"
-	/>
+	<link rel="stylesheet" type="text/css" href="/static/styles/toys.css" />
 
 	<script setup type="module">
 		import {
@@ -17,8 +13,16 @@
 			watch,
 			computed,
 		} from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
-		import { Knob, Checkbox, Combobox, Numberinput } from "/static/scripts/toy.mjs";
-		import { Fractals, FractalType } from "/static/scripts/toys/fractals.mjs";
+		import {
+			Knob,
+			Checkbox,
+			Combobox,
+			Numberinput,
+		} from "/static/scripts/toy.mjs";
+		import {
+			Fractals,
+			FractalType,
+		} from "/static/scripts/toys/fractals.mjs";
 
 		createApp({
 			components: { Knob, Checkbox, Combobox, Numberinput },
@@ -54,17 +58,24 @@
 							sim.timer.pause();
 							sim.timer.reset();
 						}
-					}
+					},
 				});
 
 				onMounted(() => {
 					sim.attach(canvas.value).then(() => {
 						sim.start();
-						watch(coeffs, v => sim.uniforms.u_coeffs = v, {deep: true});
-						watch(z0, v => sim.uniforms.u_z0 = v, {deep: true});
-						watch(zspace, v => sim.uniforms.u_zspace = v);
-						watch(iterations, v => sim.uniforms.u_iterations = v);
-						watch(preset, v => {
+						watch(coeffs, (v) => (sim.uniforms.u_coeffs = v), {
+							deep: true,
+						});
+						watch(z0, (v) => (sim.uniforms.u_z0 = v), {
+							deep: true,
+						});
+						watch(zspace, (v) => (sim.uniforms.u_zspace = v));
+						watch(
+							iterations,
+							(v) => (sim.uniforms.u_iterations = v),
+						);
+						watch(preset, (v) => {
 							switch (v) {
 								case Presets.MANDELBROT:
 									sim.uniforms.u_type = FractalType.ZPOWERN;
@@ -103,11 +114,11 @@
 									break;
 								// TODO: Add this back in
 								// case Presets.NEWTON:
-									// sim.uniforms.u_type = FractalType.NEWTON;
-									// break;
+								// sim.uniforms.u_type = FractalType.NEWTON;
+								// break;
 							}
 						});
-					})
+					});
 				});
 
 				return {
@@ -127,12 +138,18 @@
 
 {% block content %}
 	<h1>{{ title }}</h1>
-	<p><i>
-		Note that this visualisation uses WebGL, so performance will depend on your computer's graphics processing capabilities.
-	</i></p>
+	<p>
+		<i>
+			Note that this visualisation uses WebGL, so performance will depend
+			on your computer's graphics processing capabilities.
+		</i>
+	</p>
 	<div id="app">
 		<div class="control-group">
-			<Combobox v-model:selected="preset" label="Preset" :options="[
+			<Combobox
+				v-model:selected="preset"
+				label="Preset"
+				:options="[
 				{ label: 'Mandelbrot', value: Presets.MANDELBROT },
 				{ label: 'Multibrot (10th power)', value: Presets.MULTIBROT },
 				{ label: 'Julia set 1', value: Presets.JULIA1 },
@@ -140,26 +157,35 @@
 				{ label: 'Julia set 3', value: Presets.JULIA3 },
 				{ label: 'Julia set 4 (6-point star)', value: Presets.JULIA4 },
 				{ label: 'Julia set 5 (Glynn fractal)', value: Presets.JULIA5 },
-			]"></Combobox>
+			]"
+			></Combobox>
 			<span style="font-size: 120%">
 				<em>z<sub>n+1</sub></em>
 				=
-				<em>z<sub>n</sub></em><sup>
+				<em>z<sub>n</sub></em
+				><sup>
 					<Numberinput v-model:value="coeffs[0]"></Numberinput>
 				</sup>
 				+
-				<Numberinput v-if="zspace" v-model:value="coeffs[1]"></Numberinput><span v-else><em>x</em></span>
+				<Numberinput
+					v-if="zspace"
+					v-model:value="coeffs[1]"
+				></Numberinput
+				><span v-else><em>x</em></span>
 				+
-				<Numberinput v-if="zspace" v-model:value="coeffs[2]"></Numberinput><span v-else><em>y</em></span>
+				<Numberinput
+					v-if="zspace"
+					v-model:value="coeffs[2]"
+				></Numberinput
+				><span v-else><em>y</em></span>
 				<em>i</em>
 				<span v-if="zspace">
 					+
-					<Numberinput v-model:value="coeffs[3]"></Numberinput><em>e<sup>it</sup></em>
+					<Numberinput v-model:value="coeffs[3]"></Numberinput
+					><em>e<sup>it</sup></em>
 				</span>
-				&emsp;
-				with <em>z<sub>0</sub></em>
-				=
-				(
+				&emsp; with <em>z<sub>0</sub></em>
+				= (
 				<Numberinput v-if="!zspace" v-model:value="z0[0]"></Numberinput>
 				<span v-else><em>x</em></span>
 				,
@@ -167,7 +193,12 @@
 				<span v-else><em>y</em></span>
 				)
 			</span>
-			<Checkbox v-if="zspace" :disabled="coeffs[3] == 0" v-model:checked="animate" name="Animate"></Checkbox>
+			<Checkbox
+				v-if="zspace"
+				:disabled="coeffs[3] == 0"
+				v-model:checked="animate"
+				name="Animate"
+			></Checkbox>
 			<Knob
 				name="Iterations"
 				units=""

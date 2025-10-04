@@ -37,9 +37,7 @@ def moire():
 
 @app.route("/toys/test")
 def toy_test():
-    return render_template(
-        "toys/test.html", id="other", title="Test Simulation"
-    )
+    return render_template("toys/test.html", id="other", title="Test Simulation")
 
 
 @app.route("/toys/doublependulum")

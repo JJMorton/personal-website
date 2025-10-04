@@ -1,4 +1,4 @@
-import { ToyGL, Timer } from "../toy.mjs";
+import { Timer, ToyGL } from "../toy.mjs";
 import { Vector } from "../vector.mjs";
 
 /**
@@ -442,15 +442,17 @@ export class Snowflake extends ToyGL {
 
 		const gl = this.ctx;
 		gl.useProgram(this.program);
-		gl.clearColor(
-			...hexToRGB(this.colours.background),
-			1.0,
-		);
+		gl.clearColor(...hexToRGB(this.colours.background), 1.0);
 		gl.clear(gl.COLOR_BUFFER_BIT);
 
-		this.uniforms.u_resolution = new Float32Array([this.canvas.width, this.canvas.height]);
+		this.uniforms.u_resolution = new Float32Array([
+			this.canvas.width,
+			this.canvas.height,
+		]);
 		this.uniforms.u_gridradius = this.grid.radius;
-		this.uniforms.u_accentcolor = new Float32Array(hexToRGB(this.colours.accent));
+		this.uniforms.u_accentcolor = new Float32Array(
+			hexToRGB(this.colours.accent),
+		);
 		this.setAttribute(
 			"a_color",
 			new Float32Array(this.grid.cellArray.map(cellToCol)),

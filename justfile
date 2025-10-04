@@ -14,3 +14,7 @@ lint:
 
 	# Linting HTML, CSS and JS with prettier
 	npx prettier src/website/ --write
+
+todo:
+	# Finding TODO comments
+	grep 'TODO' $(find src/website/ -type f)

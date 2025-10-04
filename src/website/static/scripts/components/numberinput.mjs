@@ -38,14 +38,14 @@ export default {
 			id,
 			value,
 			key,
-			onblur: e => {
+			onblur: (e) => {
 				const v = parseFloat(e.target.textContent);
 				if (!isNaN(v)) value.value = v;
 				key.value++;
 			},
-			onkeypress: e => {
+			onkeypress: (e) => {
 				if (e.keyCode == 13) e.target.blur();
-				return /[0-9|\.|\-]/i.test(e.key)
+				return /[0-9|\.|\-]/i.test(e.key);
 			},
 		};
 	},

@@ -1,5 +1,5 @@
 import { EulerIntegrator, RK4Integrator } from "../integrator.mjs";
-import { Mouse, Toy2D, Timer, UnitConversions } from "../toy.mjs";
+import { Mouse, Timer, Toy2D, UnitConversions } from "../toy.mjs";
 import { Vector } from "../vector.mjs";
 
 export class DoublePendulum extends Toy2D {
