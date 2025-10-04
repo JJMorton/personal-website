@@ -279,8 +279,9 @@ class Toy {
 		if (!this.canvas) return;
 		const scaling = window.devicePixelRatio || 1;
 		const parent = this.canvas.parentElement;
-		const size =
-			(parent ? parent.clientWidth : window.innerWidth) * scaling;
+		const size = Math.floor(
+			(parent ? parent.clientWidth : window.innerWidth) * scaling
+		);
 
 		this.canvas.width = size;
 		this.canvas.height = size;
