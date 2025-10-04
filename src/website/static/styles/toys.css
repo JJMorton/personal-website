@@ -192,6 +192,6 @@
 	padding-left: 6px;
 }
 
-.checkbox.disabled > label {
+.checkbox input[type="checkbox"]:disabled + label {
 	opacity: 0.6;
 }

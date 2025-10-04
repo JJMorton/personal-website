@@ -119,6 +119,7 @@ export default {
 			style,
 			grab,
 			reset,
+			value,
 		};
 	},
 };

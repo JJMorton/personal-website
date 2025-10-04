@@ -1,5 +1,6 @@
 #version 300 es
 precision mediump float;
+// vim: set syntax=glsl:
 
 in vec4 color;
 

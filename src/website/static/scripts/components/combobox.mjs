@@ -1,4 +1,4 @@
-import { ref } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
+import { computed } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
 
 let i = 0;
 
@@ -6,10 +6,11 @@ export default {
 	name: "Combobox",
 	props: {
 		label: String,
-		default: String,
+		selected: Number,
 		options: Array,
 		disabled: Boolean,
 	},
+	emits: ["update:selected"],
 	template: `
 		<div class="combobox" title="Choose an option">
 			<label :for="id">{{ label }}</label>
@@ -20,14 +21,18 @@ export default {
 			</select>
 		</div>
 	`,
-	setup(props) {
+	setup(props, { emit }) {
 		const id = `combobox${i++}`;
-		const selected = ref(props.default || "");
 
-		function reset() {
-			selected.value = props.default;
-		}
+		const selected = computed({
+			get() {
+				return props.selected;
+			},
+			set(v) {
+				emit("update:selected", v);
+			},
+		});
 
-		return { id, selected, reset };
+		return { id, selected };
 	},
 };

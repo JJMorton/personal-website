@@ -103,6 +103,11 @@ section.highlight {
 	border-radius: 10px;
 }
 
+hr {
+	border: none;
+	border-bottom: 1px solid var(--color2);
+}
+
 /* Flex boxes */
 
 .flex-row {

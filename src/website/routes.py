@@ -58,3 +58,12 @@ def toy_snowflake():
         id="other",
         title="Snowflake Automata",
     )
+
+
+@app.route("/toys/fractals")
+def toy_fractals():
+    return render_template(
+        "toys/fractals.html",
+        id="other",
+        title="Fractals",
+    )

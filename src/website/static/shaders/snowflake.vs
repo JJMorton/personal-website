@@ -1,4 +1,5 @@
 #version 300 es
+// vim: set syntax=glsl:
 
 const float HEX_WIDTH = sqrt(3.0);
 const float HEX_HEIGHT = 3.0 / 2.0;

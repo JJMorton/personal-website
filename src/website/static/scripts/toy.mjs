@@ -6,8 +6,9 @@ import Checkbox from "./components/checkbox.mjs";
 import Combobox from "./components/combobox.mjs";
 import Gauge from "./components/gauge.mjs";
 import Knob from "./components/knob.mjs";
+import Numberinput from "./components/numberinput.mjs";
 
-export { Checkbox, Combobox, Gauge, Knob };
+export { Checkbox, Combobox, Gauge, Knob, Numberinput };
 
 /** Timer with play and pause functionality. All units are in seconds. */
 export class Timer {
@@ -184,10 +185,13 @@ export class UnitConversions {
 
 /** I wrap a canvas element with automatic resizing and colours */
 class Toy {
-	/** The canvas DOM element in the browser */
-	canvas;
+	/**
+	 * The canvas DOM element in the browser
+	 * @type {HTMLCanvasElement|null}
+	 */
+	canvas = null;
 	/** The rendering context for this simulation */
-	ctx;
+	ctx = null;
 	/** Current frame number */
 	frame = 0;
 	/** Time between current frame and previous */
@@ -272,6 +276,7 @@ class Toy {
 
 	/** Resize the canvas to fill its parent element's width */
 	resize() {
+		if (!this.canvas) return;
 		const scaling = window.devicePixelRatio || 1;
 		const parent = this.canvas.parentElement;
 		const size =
@@ -288,7 +293,7 @@ class Toy {
 
 /** I wrap a canvas element with the `2d` context */
 export class Toy2D extends Toy {
-	/** @type {CanvasRenderingContext2D} */
+	/** @type {CanvasRenderingContext2D|null} */
 	ctx;
 
 	/**
@@ -302,6 +307,7 @@ export class Toy2D extends Toy {
 
 	resize() {
 		super.resize();
+		if (!this.ctx) return;
 		// When the window is resized, stroke and fill styles are lost
 		this.ctx.strokeStyle = this.colours.accent;
 		this.ctx.fillStyle = this.colours.foreground;
@@ -314,6 +320,7 @@ export class Toy2D extends Toy {
 	 * @param {function():void} func
 	 */
 	withCanvasState(func) {
+		if (!this.ctx) return;
 		this.ctx.save();
 		func();
 		this.ctx.restore();
@@ -326,12 +333,14 @@ export class ToyGL extends Toy {
 	vertFile;
 	/** URL of the fragment shader @type {string} */
 	fragFile;
-	/** @type {WebGL2RenderingContext} */
-	ctx;
-	/** @type WebGLProgram */
+	/** @type {WebGL2RenderingContext|null} */
+	ctx = null;
+	/** @type {WebGLProgram|null} */
 	program;
 
-	#uniforms = new Map();
+	uniforms = {};
+
+	// TODO: Change attributes to work like uniforms do?
 	#attributes = new Map();
 
 	/**
@@ -357,6 +366,7 @@ export class ToyGL extends Toy {
 
 	resize() {
 		super.resize();
+		if (!this.ctx) return;
 		// Set the WebGL viewport size when resizing
 		this.ctx.viewport(0, 0, this.canvas.width, this.canvas.height);
 	}
@@ -364,32 +374,21 @@ export class ToyGL extends Toy {
 	/**
 	 * @param {string} name
 	 * @param {function} setter should be one of gl.uniform3fv, gl.uniform1i, etc.
-	 * @returns {ToyGL} this
 	 */
-	addUniform(name, setter) {
+	addUniform(name, setter, onchange=v => {}) {
+		if (!this.ctx || !this.program) return;
 		const loc = this.ctx.getUniformLocation(this.program, name);
 		if (loc === null) {
 			throw Error(`Failed to find uniform ${name}`);
 		}
-		this.#uniforms.set(name, {
-			location: loc,
-			setter: setter.bind(this.ctx),
+		Object.defineProperty(this.uniforms, name, {
+			get: () => this.ctx.getUniform(this.program, loc),
+			set: v => {
+				this.ctx.useProgram(this.program);
+				setter.bind(this.ctx)(loc, v);
+				onchange(v);
+			},
 		});
-	}
-
-	/**
-	 * @param {string} name
-	 * @param {any} value should match the value required by the setter given to `addUniform`
-	 * @returns {ToyGL} this
-	 */
-	setUniform(name, value) {
-		if (!this.#uniforms.has(name)) {
-			console.error("Attempted to set non-existent uniform", name);
-			return this;
-		}
-		const uni = this.#uniforms.get(name);
-		this.ctx.useProgram(this.program);
-		uni.setter(uni.location, value);
 	}
 
 	/**
@@ -398,9 +397,9 @@ export class ToyGL extends Toy {
 	 * @param {number} size
 	 * @param {number} type e.g. gl.FLOAT.
 	 * @param {number} stride
-	 * @returns {ToyGL} this
 	 */
 	addAttribute(name, usage, size, type, stride, divisor = 0, offset = 0) {
+		if (!this.ctx) return;
 		const loc = this.ctx.getAttribLocation(this.program, name);
 		if (loc === -1) {
 			throw Error(`Failed to find attribute ${name}`);
@@ -416,9 +415,9 @@ export class ToyGL extends Toy {
 	/**
 	 * @param {string} name
 	 * @param {Float32Array} data
-	 * @returns {ToyGL} this
 	 */
 	setAttribute(name, data) {
+		if (!this.ctx) return;
 		if (!this.#attributes.has(name)) {
 			console.error("Attempted to set non-existent attribute", name);
 			return;

@@ -12,7 +12,7 @@ function hexToRGB(hex) {
 	var g = (bigint >> 8) & 255;
 	var b = bigint & 255;
 
-	return [r, g, b];
+	return [r / 255.0, g / 255.0, b / 255.0];
 }
 
 class GLPolygon {
@@ -443,20 +443,14 @@ export class Snowflake extends ToyGL {
 		const gl = this.ctx;
 		gl.useProgram(this.program);
 		gl.clearColor(
-			...hexToRGB(this.colours.background).map((x) => x / 255),
+			...hexToRGB(this.colours.background),
 			1.0,
 		);
 		gl.clear(gl.COLOR_BUFFER_BIT);
 
-		this.setUniform(
-			"u_resolution",
-			new Float32Array([this.canvas.width, this.canvas.height]),
-		);
-		this.setUniform("u_gridradius", this.grid.radius);
-		this.setUniform(
-			"u_accentcolor",
-			new Float32Array(hexToRGB(this.colours.accent).map((x) => x / 255)),
-		);
+		this.uniforms.u_resolution = new Float32Array([this.canvas.width, this.canvas.height]);
+		this.uniforms.u_gridradius = this.grid.radius;
+		this.uniforms.u_accentcolor = new Float32Array(hexToRGB(this.colours.accent));
 		this.setAttribute(
 			"a_color",
 			new Float32Array(this.grid.cellArray.map(cellToCol)),

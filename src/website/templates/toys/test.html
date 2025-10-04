@@ -12,6 +12,7 @@
 		import {
 			createApp,
 			ref,
+			watch,
 		} from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
 		import {
 			Knob,
@@ -25,7 +26,9 @@
 			setup() {
 				const meterValue = ref(60.0);
 				const discreteValue = ref(2);
-				return { meterValue, discreteValue };
+				const selectedValue = ref("ace");
+				watch(selectedValue, () => console.log(selectedValue.value));
+				return { meterValue, discreteValue, selectedValue };
 			},
 		}).mount("#app");
 	</script>
@@ -33,6 +36,7 @@
 
 {% block content %}
 	<div id="app">
+		<input :value="selectedValue"></input>
 		<div class="control-group">
 			<Knob
 				name="Test"
@@ -78,6 +82,7 @@
 			<Combobox
 				label="Choose a card, any card"
 				default="ace"
+				v-model:selected="selectedValue"
 				:options="[
       { label: 'Ace of spades', value: 'ace' },
       { label: 'Two of hearts', value: 'two' },
