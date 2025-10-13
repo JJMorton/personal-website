@@ -8,15 +8,16 @@ uniform vec2 u_resolution;
 uniform float u_time;
 uniform float u_zoom;
 uniform int u_iterations;
-uniform vec3 u_colorfg;
-uniform vec3 u_colorbg;
-uniform vec3 u_coloraccent;
 uniform vec2 u_position;
 uniform vec4 u_coeffs;
 uniform int u_type;
 uniform float u_newton[9];
 uniform bool u_zspace;
 uniform vec2 u_z0;
+
+const int NCOLOURS = 10;
+uniform vec3 u_colours[NCOLOURS];
+uniform float u_colour_stops[NCOLOURS];
 
 out vec4 outcolor;
 
@@ -100,7 +101,7 @@ float zpowern(vec2 p, vec2 centre, float zoom)
         return 1.0;
     }
     
-    float r = fi / float(u_iterations);
+    float r = fract(fi / 200.0);
     
     return r;
 }
@@ -117,22 +118,16 @@ void main()
         case 1: r = newton(uv.xy, u_position, u_zoom); break;
     }
 
-    if (r < 0.02)
+    outcolor = vec4(u_colours[NCOLOURS - 1], 1.0);
+    for (int i = 0; i < NCOLOURS - 1; i++)
     {
-        outcolor = vec4(u_colorbg, 1.0);
+        float s0 = u_colour_stops[i];
+        float s1 = u_colour_stops[i+1];
+        if (r >= s0 && r < s1)
+        {
+            float a = (r - s0) / (s1 - s0);
+            outcolor = vec4(mix(u_colours[i], u_colours[i+1], a), 1.0);
+        }
     }
-    else if (r < 0.1)
-    {
-        outcolor = vec4(mix(u_colorbg, u_colorfg, (r - 0.02) / 0.08), 1.0);
-    }
-    else if (r < 0.2)
-    {
-        outcolor = vec4(mix(u_colorfg, u_coloraccent, (r - 0.1) / 0.1), 1.0);
-    }
-    else
-    {
-        outcolor = vec4(mix(u_coloraccent, u_colorfg, (r - 0.2) / 0.8), 1.0);
-    }
-    
-    
+
 }

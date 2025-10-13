@@ -15,6 +15,8 @@ function hexToRGB(hex) {
 	return [r / 255.0, g / 255.0, b / 255.0];
 }
 
+const NCOLOURS = 10;
+
 export const FractalType = {
 	ZPOWERN: 0,
 	NEWTON: 1,
@@ -91,9 +93,8 @@ export class Fractals extends ToyGL {
 		this.addUniform("u_type", gl.uniform1i, onchange);
 		this.addUniform("u_z0", gl.uniform2fv, onchange);
 		this.addUniform("u_zspace", gl.uniform1i, onchange);
-		this.addUniform("u_colorfg", gl.uniform3fv);
-		this.addUniform("u_colorbg", gl.uniform3fv);
-		this.addUniform("u_coloraccent", gl.uniform3fv);
+		this.addUniform("u_colours", gl.uniform3fv);
+		this.addUniform("u_colour_stops", gl.uniform1fv);
 
 		// Initialise uniforms to defaults for a Mandelbrot
 		this.uniforms.u_position = [0.0, 0.0];
@@ -104,16 +105,19 @@ export class Fractals extends ToyGL {
 		this.uniforms.u_type = FractalType.ZPOWERN;
 		this.uniforms.u_z0 = [0.0, 0.0];
 
-		// Set colours to those in the CSS
-		this.uniforms.u_colorfg = new Float32Array(
-			hexToRGB(this.colours.foreground),
-		);
-		this.uniforms.u_colorbg = new Float32Array(
-			hexToRGB(this.colours.background),
-		);
-		this.uniforms.u_coloraccent = new Float32Array(
-			hexToRGB(this.colours.accent),
-		);
+		this.uniforms.u_colours = new Float32Array([
+			0.18739228, 0.0771021 , 0.21618875,
+			0.33954169, 0.13704802, 0.52328798,
+			0.37471686, 0.39955665, 0.71257369,
+			0.48673596, 0.63416646, 0.7625578 ,
+			0.78399101, 0.81755426, 0.83936747,
+			0.8542922 , 0.79097197, 0.76583801,
+			0.77590791, 0.53554218, 0.42413368,
+			0.65832808, 0.27803211, 0.31346434,
+			0.41796105, 0.10420645, 0.30278652,
+			0.18488036, 0.07942573, 0.21307652,
+		]);
+		this.uniforms.u_colour_stops = new Float32Array(10).map((v, i) => Math.pow(i / 9.0, 1.0));
 
 		// Set the canvas size correctly
 		this.resize();
