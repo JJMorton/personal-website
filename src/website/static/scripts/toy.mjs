@@ -196,6 +196,8 @@ class Toy {
 	frame = 0;
 	/** Time between current frame and previous */
 	delta = 0;
+	/** Scale to render at, as a fraction of the actual canvas size */
+	renderScale = 1.0;
 
 	/** The colours from the webpage's CSS */
 	colours = {
@@ -277,7 +279,7 @@ class Toy {
 	/** Resize the canvas to fill its parent element's width */
 	resize() {
 		if (!this.canvas) return;
-		const scaling = window.devicePixelRatio || 1;
+		const scaling = (window.devicePixelRatio || 1.0) * this.renderScale;
 		const parent = this.canvas.parentElement;
 		const size = Math.floor(
 			(parent ? parent.clientWidth : window.innerWidth) * scaling
