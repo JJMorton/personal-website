@@ -11,3 +11,6 @@ wheels/
 
 # Nodejs
 node_modules/
+
+# GIMP projects
+*.xcf
