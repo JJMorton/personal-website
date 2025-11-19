@@ -93,7 +93,7 @@ section {
 	overflow: hidden;
 }
 
-section.highlight {
+.highlight {
 	background:
 		linear-gradient(var(--color5) 0%, transparent 100%),
 		url("/static/img/moire-dark.png") repeat,
@@ -101,6 +101,14 @@ section.highlight {
 	color: var(--color1);
 	padding: var(--edge-padding);
 	border-radius: 10px;
+}
+
+.highlight-mid {
+	background-color: var(--color2);
+	color: var(--color5);
+	padding: var(--edge-padding);
+	border-radius: 10px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 hr {
@@ -363,6 +371,11 @@ li.git::before {
 
 li.orcid::before {
 	background-image: url("/static/fa/id-badge.svg");
+}
+
+.card-mid {
+	background-color: var(--color2);
+	border-radius: 4px;
 }
 
 /* Footer */

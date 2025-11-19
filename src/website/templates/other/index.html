@@ -3,13 +3,32 @@
 
 {% block content %}
 	<section>
-		<h2>Physics Toys</h2>
-		<h3><a href="/toys/doublependulum">Double Pendulum</a></h3>
-		<h3><a href="/toys/snowflake">Snowflake Automata</a></h3>
-		<h3><a href="/toys/fractals">Fractal Visualiser</a></h3>
-	</section>
-
-	<section>
-		<h2>Art With Code</h2>
+		<h2>Interactive Toys</h2>
+		<div class="flex-row">
+			<div class="flex">
+				<a href="/toys/doublependulum">
+					<div class="highlight-mid" style="text-align: center;">
+						<img style="width: 100%; max-width: 300px;" src="/static/img/double_pendulum.png"></img>
+					</div>
+				</a>
+				<h3><i>Double Pendulum</i></h3>
+			</div>
+			<div class="flex">
+				<a href="/toys/snowflake">
+					<div class="highlight-mid" style="text-align: center;">
+						<img style="width: 100%; max-width: 300px;" src="/static/img/snowflake.png"></img>
+					</div>
+				</a>
+				<h3><i>Snowflake Automata</i></h3>
+			</div>
+		</div>
+		<hr/>
+		<div>
+			<a href="/toys/fractals">
+				<div style="height: 267px; border-radius: 10px; background-image: url(/static/img/fractals.jpg); background-size: 267px;">
+				</div>
+			</a>
+			<h3><i>Fractal Visualiser</i></h3>
+		</div>
 	</section>
 {% endblock %}

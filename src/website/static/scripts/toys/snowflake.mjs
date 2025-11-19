@@ -442,7 +442,7 @@ export class Snowflake extends ToyGL {
 
 		const gl = this.ctx;
 		gl.useProgram(this.program);
-		gl.clearColor(...hexToRGB(this.colours.background), 1.0);
+		gl.clearColor(1.0, 0.0, 0.0, 0.0);
 		gl.clear(gl.COLOR_BUFFER_BIT);
 
 		this.uniforms.u_resolution = new Float32Array([
